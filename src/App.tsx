@@ -1,13 +1,18 @@
 import React from 'react';
 import {BrowserRouter} from "react-router-dom";
 import {RouterConfig} from "./navigation/router-config";
+import {QueryClient, QueryClientProvider} from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="App container">
-      <BrowserRouter>
-        <RouterConfig/>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <RouterConfig/>
+        </BrowserRouter>
+      </QueryClientProvider>
     </div>
   );
 }
