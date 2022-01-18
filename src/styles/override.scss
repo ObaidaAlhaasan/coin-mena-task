@@ -1,9 +1,5 @@
 @import "variables";
 
-.text-primary {
-  color: $primary-color;
-}
-
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
   background: $btn-primary-background;
   border-color: $btn-primary-border;

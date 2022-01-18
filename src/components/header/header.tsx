@@ -68,8 +68,8 @@ const Header: FC<IHeaderProps> = () => {
           <li className="nav-item">
             <span className="has-hover">
               {theme === "Light"
-                ? <i className="fas fa-sun text-primary" onClick={() => setTheme(AppThemes.Dark)}/>
-                : <i className="fas fa-moon text-primary" onClick={() => setTheme(AppThemes.Light)}/>
+                ? <i className="fas fa-sun has-text-primary" onClick={() => setTheme(AppThemes.Dark)}/>
+                : <i className="fas fa-moon has-text-primary" onClick={() => setTheme(AppThemes.Light)}/>
               }
             </span>
           </li>

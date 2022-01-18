@@ -1,19 +1,24 @@
 import React, {FC, useMemo, useState} from 'react';
 import {useQuery} from "react-query";
-import {ExternalUrlsConstants} from "../../../../services/constants";
 import CryptoIconsService from "../../../../services/crypto-icons";
 import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 import LoadingError from "../../../../components/loading-error/loading-error";
-import {usePagination, useSortBy, useTable} from "react-table";
 import "./crypto-assets-table.scss";
 import MoneyFormatterService from "../../../../services/money-formatter";
+import ReusableTable from "../../../../components/reusable-table/reusable-table";
 
 interface ICryptoAssetsTable {
 
 }
 
 const fetchCryptos = async (page: number = 1, count: number = 10) => {
-  return await fetch(`${ExternalUrlsConstants.CryptoAssets}`).then(r => r.json());
+  console.log("page", page, "count", count);
+  const fields = `&fields=id,slug,symbol,metrics/market_data/price_usd`;
+
+  // const r = await fetch(`${ExternalUrlsConstants.CryptoAssets}?page=${page}&limit=${count}${fields}`).then(r => r.json());
+  return await fetch("https://data.messari.io/api/v1/assets?page=1&limit=20&fields=id,slug,symbol,metrics/market_data/price_usd").then(r => r.json());
+  // console.log(r);
+  // return r;
 }
 
 interface ICryptoAsset {
@@ -43,13 +48,13 @@ const CryptoIcon: FC<{ iconName: string }> = (props) => {
 }
 
 const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
-  const [page, setPage] = useState<number>(1);
-  const [count, setCount] = useState<number>(10);
+  const [pageIndex, setPageIndex] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   const {
     data: response,
     status
-  } = useQuery<ICryptoAssetResponse>(["crypto-assets", page, count], () => fetchCryptos(page, count), {keepPreviousData: true});
+  } = useQuery<ICryptoAssetResponse>(["crypto-assets", pageIndex, pageSize], () => fetchCryptos(pageIndex, pageSize), {keepPreviousData: true});
   const data = response?.data ?? [];
 
   const columns = useMemo<any>(
@@ -104,148 +109,17 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
   return (
     <div className="crypto-assets-table row justify-content-center">
       <div className="col-8 table-responsive">
-        <Table columns={columns} data={data}/>
+        <ReusableTable columns={columns} data={data}
+                       pageIndex={pageIndex}
+                       pageSize={pageSize}
+                       totalItems={response?.status?.elapsed ?? 10}
+                       nextPage={() => setPageIndex(pageIndex + 1)}
+                       previousPage={() => setPageIndex(pageIndex - 1)}
+                       goToPage={setPageIndex}
+                       setPageSize={setPageSize}
+        />
       </div>
     </div>
   );
 };
-
-interface ITableProps {
-  columns: any[];
-  data: any[]
-}
-
-const Table: FC<ITableProps> = ({columns, data}) => {
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {pageIndex, pageSize}
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: {pageIndex: 1},
-    },
-    useSortBy,
-    usePagination
-  )
-
-  return (
-    <>
-      <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre>
-      <br/>
-
-      <table {...getTableProps()} className="table table-light table-hover">
-        <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                <div className="d-flex align-items-center">
-                  <span>{column.render('Header')}</span>
-                  <span className="d-inline-block mx-2 ">
-                  {column.isSorted ?
-                    column.isSortedDesc
-                      ? <i className="fas fa-angle-up "/>
-                      : <i className="fas fa-angle-down "/>
-                    :
-                    ''
-                  }
-              </span>
-                </div>
-              </th>
-            ))}
-          </tr>
-        ))}
-
-        </thead>
-
-        <tbody {...getTableBodyProps()}>
-
-        {page.map((row, i) => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </tr>
-          )
-        })}
-        </tbody>
-      </table>
-
-      <div className="pagination d-flex align-items-center justify-content-between">
-        <div>
-          <div className="btn-group mx-1">
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => gotoPage(0)}
-                    disabled={!canPreviousPage}>
-              <i className="fas fa-angle-double-left"/>
-            </button>
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => previousPage()}
-                    disabled={!canPreviousPage}>
-              <i className="fas fa-angle-left"/>
-            </button>
-          </div>
-
-          <div className="btn-group mx-1">
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => nextPage()} disabled={!canNextPage}>
-              <i className="fas fa-angle-right"/>
-            </button>
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => gotoPage(pageCount - 1)}
-                    disabled={!canNextPage}>
-              <i className="fas fa-angle-double-right"/>
-            </button>
-          </div>
-        </div>
-        <span className="">
-          Page
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-
-        <div className="mx-3 d-flex align-items-center">
-          <span>Rows Per Page: </span>
-          <select className="form-control-sm" id="rows-per-page">
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize} onChange={e => {
-                setPageSize(pageSize)
-              }}>
-                {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
-
-      </div>
-    </>
-  )
-}
 export default CryptoAssetsTable;
