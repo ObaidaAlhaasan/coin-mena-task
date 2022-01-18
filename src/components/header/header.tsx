@@ -40,7 +40,7 @@ const Header: FC<IHeaderProps> = () => {
   const [theme, setTheme] = useState<AppThemes>(AppThemes.Light);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
       <img src="assets/images/bitcoin.svg" alt="logo" className="logo navbar-brand"/>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

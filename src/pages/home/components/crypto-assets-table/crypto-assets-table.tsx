@@ -4,8 +4,9 @@ import {ExternalUrlsConstants} from "../../../../services/constants";
 import CryptoIconsService from "../../../../services/crypto-icons";
 import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 import LoadingError from "../../../../components/loading-error/loading-error";
-import {Column, usePagination, useSortBy, useTable} from "react-table";
-import {findByDisplayValue} from "@testing-library/react";
+import {usePagination, useSortBy, useTable} from "react-table";
+import "./crypto-assets-table.scss";
+import MoneyFormatterService from "../../../../services/money-formatter";
 
 interface ICryptoAssetsTable {
 
@@ -54,32 +55,42 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
   const columns = useMemo<any>(
     () => [
       {
-        Header: "Crypto",
-        columns: [
-          {
-            Header: "Name",
-            accessor: "symbol",
-            Cell: ({value}: { value: string }) => {
-              return <> <CryptoIcon iconName={value}/> <span className="mx-1">{value}</span> </>
-            }
-          },
-          {
-            Header: "Price",
-            accessor: "metrics.market_data.price_usd"
-          },
-          {
-            Header: "Trade",
-            accessor: "",
-            Cell: () => {
-              return (
-                <div>
-                  <button className="btn btn-primary btn-sm"> Buy</button>
-                  <button className="btn btn-primary btn-sm">Sell</button>
-                </div>
-              )
-            }
-          }
-        ]
+        Header: "",
+        accessor: "symbol",
+        Cell: (cell: { value: string }) => {
+          return <CryptoIcon iconName={cell.value}/>;
+        },
+        className: 'crypto-icon-wrapper',
+        width: 10,
+        disableSortBy: true,
+      },
+      {
+        Header: "Name",
+        accessor: "slug",
+        Cell: (cell: { value: string }) => {
+          console.log(cell);
+          return <>  <span className="text-capitalize pt-2">{cell.value}</span> </>
+        }
+      },
+      {
+        Header: "Price",
+        accessor: "metrics.market_data.price_usd",
+        Cell: (cell: { value: string }) => {
+          return <span className="pt-2">{MoneyFormatterService.Format(cell.value)}</span>
+        }
+      },
+      {
+        Header: "Trade",
+        accessor: "",
+        Cell: () => {
+          return (
+            <div className="pt-2">
+              <button className="btn btn-primary btn-sm"> Buy</button>
+              <button className="btn btn-primary btn-sm">Sell</button>
+            </div>
+          )
+        },
+        disableSortBy: true,
       }
     ]
     , []);
@@ -148,15 +159,31 @@ const Table: FC<ITableProps> = ({columns, data}) => {
           )}
         </code>
       </pre>
-      <table {...getTableProps()} className="table table-light">
+      <br/>
+
+      <table {...getTableProps()} className="table table-light table-hover">
         <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <div className="d-flex align-items-center">
+                  <span>{column.render('Header')}</span>
+                  <span className="d-inline-block mx-2 ">
+                  {column.isSorted ?
+                    column.isSortedDesc
+                      ? <i className="fas fa-angle-up "/>
+                      : <i className="fas fa-angle-down "/>
+                    :
+                    ''
+                  }
+              </span>
+                </div>
+              </th>
             ))}
           </tr>
         ))}
+
         </thead>
 
         <tbody {...getTableBodyProps()}>
