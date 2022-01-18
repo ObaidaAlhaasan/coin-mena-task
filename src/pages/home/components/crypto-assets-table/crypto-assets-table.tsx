@@ -1,14 +1,14 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {useQuery} from "react-query";
 import {ExternalUrlsConstants} from "../../../../services/constants";
-import {stat} from "fs";
+import CryptoIconsService from "../../../../services/crypto-icons";
 
 interface ICryptoAssetsTable {
 
 }
 
-const fetchCryptos = async () => {
-  return await fetch(ExternalUrlsConstants.CryptoAssets).then(r => r.json());
+const fetchCryptos = async (page: number = 1, count: number = 10) => {
+  return await fetch(`${ExternalUrlsConstants.CryptoAssets}`).then(r => r.json());
 }
 
 function LoadingSpinner() {
@@ -38,8 +38,20 @@ export interface ICryptoAssetResponse {
   };
 }
 
+
+const CryptoIcon: FC<{ iconName: string }> = (props) => {
+
+  const path = CryptoIconsService.AvailableIconsPaths[props.iconName.toLowerCase()] ?? CryptoIconsService.GenericIconPath;
+  return <img src={path} alt="crypto icon"/>;
+}
+
 const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
-  const {data: response, status} = useQuery<ICryptoAssetResponse>("crypto-assets", fetchCryptos);
+  const [page, setPage] = useState<number>(1);
+  const [count, setCount] = useState<number>(10);
+  const {
+    data: response,
+    status
+  } = useQuery<ICryptoAssetResponse>(["crypto-assets", page, count], () => fetchCryptos(page, count), {keepPreviousData: true});
 
   if (status === "loading")
     return <LoadingSpinner/>
@@ -49,11 +61,14 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
 
   return (
     <div>
-      {response?.data?.map(c => <li>
-        <span>name : {c.slug}</span>
-        <span>price : {c.metrics.market_data.price_usd}</span>
-        <span>symbol : {c.symbol}</span>
-      </li>)}
+      {response?.data?.map(c => {
+        return <li key={c.symbol}>
+          <CryptoIcon iconName={c.symbol}/>
+          <span>name : {c.slug}</span>
+          <span>price : {c.metrics.market_data.price_usd}</span>
+          <span>symbol : {c.symbol}</span>
+        </li>
+      })}
     </div>
   );
 };
