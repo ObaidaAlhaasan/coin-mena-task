@@ -74,22 +74,32 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
         accessor: "slug",
         Cell: (cell: { value: string }) => {
           console.log(cell);
-          return <>  <span className="text-capitalize pt-2">{cell.value}</span> </>
+          return <>  <span className="text-capitalize ">{cell.value}</span> </>
         }
       },
       {
         Header: "Price",
         accessor: "metrics.market_data.price_usd",
         Cell: (cell: { value: string }) => {
-          return <span className="pt-2">{MoneyFormatterService.Format(cell.value)}</span>
+          return <span className="">{MoneyFormatterService.Format(cell.value)}</span>
         }
+      },
+      {
+        id: "symbol_id",
+        Header: "ID",
+        accessor: "symbol",
+        Cell: (cell: { value: string }) => {
+          console.log(cell);
+          return <>  <span className="text-capitalize ">{cell.value}</span> </>
+        },
+        disableSortBy: true
       },
       {
         Header: "Trade",
         accessor: "",
         Cell: () => {
           return (
-            <div className="pt-2">
+            <div className="">
               <button className="btn btn-primary btn-sm"> Buy</button>
               <button className="btn btn-primary btn-sm">Sell</button>
             </div>

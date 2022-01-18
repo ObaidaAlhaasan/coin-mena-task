@@ -48,7 +48,7 @@ const Header: FC<IHeaderProps> = () => {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav m-auto">
+        <ul className="navbar-nav">
           <li className="nav-item active">
             <NavLink to={RoutesPathsConstants.Root} className={navLinkClassName}>Home</NavLink>
           </li>
@@ -57,12 +57,12 @@ const Header: FC<IHeaderProps> = () => {
           </li>
         </ul>
 
-        <ul className="navbar-nav ml-auto">
+        <ul className="navbar-nav ms-auto">
           <li className="nav-item">
             {userSignIn ?
               <UserInfo/>
               :
-              <span className="has-hover has-hover-affect" onClick={() => setLoginIsOpen(true)}>Sign In</span>
+              <span className="has-hover has-hover-affect has-text-primary has-hover-underline" onClick={() => setLoginIsOpen(true)}>Sign In</span>
             }
           </li>
           <li className="nav-item">

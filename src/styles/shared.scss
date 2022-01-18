@@ -12,3 +12,9 @@
 .has-text-primary {
   color: $primary-color ;
 }
+
+.has-hover-underline {
+  &:hover {
+    text-decoration: underline;
+  }
+}

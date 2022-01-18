@@ -56,7 +56,7 @@ const ReusableTable: FC<ITableProps> = ({columns, data, pageIndex, pageSize, tot
       </pre>
       <br/>
 
-      <table {...getTableProps()} className="table table-light table-hover">
+      <table {...getTableProps()} className="table table-hover">
         <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -127,7 +127,7 @@ const ReusableTable: FC<ITableProps> = ({columns, data, pageIndex, pageSize, tot
         </span>
 
         <div className="mx-3 d-flex align-items-center">
-          <span>Rows Per Page: </span>
+          <span className="me-2">Rows Per Page: </span>
           <select className="form-control-sm" id="rows-per-page">
             {[10, 20, 30, 50].map(pageSize => (
               <option key={pageSize} value={pageSize} onChange={e => {

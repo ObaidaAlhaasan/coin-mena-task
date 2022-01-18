@@ -10,11 +10,13 @@ export const RouterConfig = () => {
   return (
     <>
       <Header/>
+      <div className="container">
       <Routes>
         <Route path={RoutesPathsConstants.Root} element={<Home/>}/>
         <Route path={RoutesPathsConstants.Trade} element={<Trade/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
+      </div>
     </>
   )
 }
