@@ -48,7 +48,7 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
       return setPassword({
         ...password,
         isValid: false,
-        validationMsg: 'Password Is Invalid, should contain  number and one special character'
+        validationMsg: 'Password Is Invalid should contain one special character, one number'
       });
 
     setPassword({...password, isValid: true, validationMsg: ''});
@@ -81,7 +81,7 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
               <label htmlFor="Email">Email</label>
               <input id="Email"
                      type="email"
-                     className={`form-control ${email.isValid ? 'is-valid' : 'is-invalid'}`}
+                     className={`form-control ${email.isValid && 'is-valid'} ${email.isValid === false ? 'is-invalid' : ''} `}
                      value={email.value}
                      onChange={e => setEmail({...email, value: e.target.value})}
                      onBlur={e => onCheckEmail(e.target.value)}
@@ -102,7 +102,9 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
             </div>
 
             <div className="col-md-3 my-3">
-              <button type="submit" className="btn btn-primary">Login</button>
+              <button type="submit" className="btn btn-primary" disabled={!email.isValid || !password.isValid}>
+                Login
+              </button>
             </div>
           </div>
         </form>

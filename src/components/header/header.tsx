@@ -7,23 +7,20 @@ import LoginModal from "../modals/login/login";
 import {AppThemes} from "../../types/UI/AppThemes";
 import {useStore} from "../../store/store";
 
-interface IHeaderProps {
-}
-
 const navLinkClassName = (props: { isActive: boolean }) => props.isActive ? 'nav-link-active' : 'has-hover-affect';
 
 const UserInfo: FC = () => {
   const {currentUser} = useStore();
 
   return <div>
-    Welcome {currentUser?.username}
+    Welcome <strong className="has-text-primary">{currentUser?.username}</strong>
   </div>
 }
 
-const Header: FC<IHeaderProps> = () => {
+const Header: FC = () => {
   const [loginIsOpen, setLoginIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useState<AppThemes>(AppThemes.Light);
-  const {currentUser} = useStore();
+  const {currentUser, logout} = useStore();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
@@ -46,7 +43,10 @@ const Header: FC<IHeaderProps> = () => {
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
             {currentUser ?
-              <UserInfo/>
+              <>
+                <UserInfo/>
+                <span onClick={logout} className="ms-3 has-hover has-hover-affect">logout</span>
+              </>
               :
               <span className="has-hover has-hover-affect has-text-primary has-hover-underline"
                     onClick={() => setLoginIsOpen(true)}>Sign In</span>
