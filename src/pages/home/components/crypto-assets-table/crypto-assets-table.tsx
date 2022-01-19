@@ -100,8 +100,8 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
         Cell: () => {
           return (
             <div className="">
-              <button className="btn btn-primary btn-sm"> Buy</button>
-              <button className="btn btn-primary btn-sm">Sell</button>
+              <button className="btn btn-primary"> Buy</button>
+              <button className="btn btn-primary">Sell</button>
             </div>
           )
         },
