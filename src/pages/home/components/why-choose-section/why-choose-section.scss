@@ -1,0 +1,16 @@
+@import "../../../../styles/variables";
+
+.why-choose {
+  margin-top: 5rem;
+
+  &__main-title {
+    font-size: $default-font-size * 3;
+    margin-block: 3rem 4rem;
+  }
+
+  &__paragraph {
+    font-size: $default-font-size * 1.4;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+}

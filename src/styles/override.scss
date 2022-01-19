@@ -1,5 +1,57 @@
 @import "variables";
 
-.text-primary {
-  color: $primary-color !important;
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+  background: $btn-primary-background;
+  border-color: $btn-primary-border;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.1rem lighten($btn-primary-background, 5%);
+}
+
+a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
+.form-control:focus, .form-control:hover {
+  outline: 0;
+  box-shadow: none;
+}
+
+.btn.active.focus, .btn.active:focus, .btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus,
+button.active.focus,
+button.active:focus,
+button.focus,
+button:active.focus,
+button:active:focus,
+button:focus,
+.accordion__button:focus {
+  outline: 0;
+  box-shadow: none
+}
+
+
+.btn.btn-primary, .btn-primary {
+  background: $btn-primary-background;
+  border-color: $btn-primary-border;
+
+  &:hover {
+    background: darken($btn-primary-background, 5%);
+    border-color: darken($btn-primary-border, 5%);
+  }
+;
+
+  &:active, &:visited, &:focus {
+    background: darken($btn-primary-background, 5%);
+    border-color: darken($btn-primary-border, 5%);
+  }
+
+  &:active:focus {
+    box-shadow: 0 0 0 0.1rem darken($btn-primary-background, 5%);
+  }
 }
