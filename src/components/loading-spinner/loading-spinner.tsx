@@ -1,7 +1,15 @@
 import React, {FC} from "react";
+import "./loading-spinner.scss";
 
 const LoadingSpinner: FC = () => {
-  return <h3>Loading....</h3>;
+  return <div className="loading-spinner text-center">
+    <div className="lds-ring">
+      <div/>
+      <div/>
+      <div/>
+      <div/>
+    </div>
+  </div>;
 }
 
 export default LoadingSpinner;

@@ -1,5 +1,6 @@
 import React, {FC, useEffect} from "react";
-import {usePagination, useSortBy, useTable} from "react-table";
+import {useExpanded, usePagination, useSortBy, useTable} from "react-table";
+import exp from "constants";
 
 interface ITableProps {
   columns: any[];
@@ -21,7 +22,7 @@ const ReusableTable: FC<ITableProps> = (props) => {
     pageCount,
     pageOptions,
     page,
-    state: {pageIndex, pageSize},
+    state: {pageIndex, pageSize, expanded},
 
     gotoPage,
     getTableProps,
@@ -42,7 +43,8 @@ const ReusableTable: FC<ITableProps> = (props) => {
       pageCount: Math.ceil(totalCount / queryPageSize)
     },
     useSortBy,
-    usePagination
+    useExpanded,
+    usePagination,
   )
 
   useEffect(() => {
@@ -53,6 +55,10 @@ const ReusableTable: FC<ITableProps> = (props) => {
   useEffect(() => {
     setPageIndex(pageIndex);
   }, [pageIndex]);
+
+  useEffect(() => {
+    console.log("Change on ", expanded);
+  }, [expanded]);
 
   return (
     <>
@@ -82,15 +88,23 @@ const ReusableTable: FC<ITableProps> = (props) => {
         </thead>
 
         <tbody {...getTableBodyProps()}>
-
         {page.map((row, i) => {
           prepareRow(row)
           return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </tr>
+            <>
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                })}
+              </tr>
+              {row.isExpanded &&
+                <tr>
+                  {row.cells.map((cell) => {
+                    return <td {...cell.getCellProps()}><p>Lorem ipsum dolor sit amet, consectetur.</p></td>
+                  })}
+                </tr>
+              }
+            </>
           )
         })}
         </tbody>

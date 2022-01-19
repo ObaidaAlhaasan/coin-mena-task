@@ -8,19 +8,14 @@ import MoneyFormatterService from "../../../../services/money-formatter";
 import ReusableTable from "../../../../components/reusable-table/reusable-table";
 import {ExternalUrlsConstants} from "../../../../services/constants";
 import ButtonDropdown from "../../../../components/drop-down/button-dropdown";
+import {Row} from "react-table";
 
 interface ICryptoAssetsTable {
 
 }
 
 const cryptoField = `&fields=id,slug,symbol,metrics/market_data/price_usd`;
-
-const fetchCryptos = async (page: number = 1, count: number = 10) => {
-  console.log("page", page, "count", count);
-  const r = await fetch(`${ExternalUrlsConstants.CryptoAssets}?page=${page}&limit=${count}${cryptoField}`).then(r => r.json());
-  console.log(r);
-  return r;
-}
+const fetchCryptos = async (page: number = 1, count: number = 10) => await fetch(`${ExternalUrlsConstants.CryptoAssets}?page=${page}&limit=${count}${cryptoField}`).then(r => r.json());
 
 interface ICryptoAsset {
   id: string;
@@ -93,14 +88,26 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
         accessor: "",
         Cell: () => {
           return (
-            <ButtonDropdown label="Trade" className="btn btn-secondary d-flex align-items-center w-50"
-                            items={[<button className="btn btn-primary w-50"> Buy</button>,
-                              <button className="btn btn-primary w-50">Sell</button>]}
+            <ButtonDropdown label="Trade" className="btn btn-secondary d-flex align-items-center w-7rem"
+                            items={[<button className="btn btn-primary w-7rem"> Buy</button>,
+                              <button className="btn btn-primary w-7rem">Sell</button>]}
             >
             </ButtonDropdown>
           )
         },
-        disableSortBy: true,
+        disableSortBy: true
+      },
+      {
+        id: 'expander',
+        isExpanded: true,
+        Cell: ({row, toggleRowExpanded}: { row: Row, toggleRowExpanded: () => void }) => {
+          return <span
+            className="d-block w-3rem fn-size-2rem text-end has-hover-text-primary"
+            {...row.getToggleRowExpandedProps({})}>
+              {row.isExpanded ? <i className="fas fa-chevron-down d-block"/> :
+                <i className="fas fa-chevron-right d-block"/>}
+          </span>
+        }
       }
     ]
     , []);

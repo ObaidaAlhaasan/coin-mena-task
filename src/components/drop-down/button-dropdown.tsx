@@ -1,4 +1,4 @@
-import React, {FC, ReactNode, useState} from 'react';
+import React, {FC, Fragment, ReactNode, useState} from 'react';
 import DropdownMenu from "./drop-down-menu";
 import DropdownToggle from "./drop-down-toggle";
 
@@ -18,7 +18,7 @@ const ButtonDropdown: FC<IDropDownProps> = ({label, className, items, children})
       </DropdownToggle>
 
       <DropdownMenu isOpen={isOpen}>
-        {items.map(i => i)}
+        {items.map((item, i) => <Fragment key={i}>{item}</Fragment>)}
       </DropdownMenu>
     </div>
   );
