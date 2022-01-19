@@ -5,39 +5,25 @@ import "./header.scss";
 import RoutesPathsConstants from "../../navigation/routes-paths-constants";
 import LoginModal from "../modals/login/login";
 import {AppThemes} from "../../types/UI/AppThemes";
+import {useStore} from "../../store/store";
 
 interface IHeaderProps {
 }
 
 const navLinkClassName = (props: { isActive: boolean }) => props.isActive ? 'nav-link-active' : 'has-hover-affect';
-const userSignIn = false;
-
-interface ILoggedInUser {
-  username: string;
-  email: string;
-  profilePic?: string;
-  loggedInDate?: Date;
-}
-
-const useUser = (): ILoggedInUser => {
-  return {
-    username: "Sokania",
-    email: "so@so.com",
-    loggedInDate: new Date()
-  }
-}
 
 const UserInfo: FC = () => {
-  const user = useUser();
+  const {currentUser} = useStore();
+
   return <div>
-    Welcome {user.username}
+    Welcome {currentUser?.username}
   </div>
 }
-
 
 const Header: FC<IHeaderProps> = () => {
   const [loginIsOpen, setLoginIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useState<AppThemes>(AppThemes.Light);
+  const {currentUser} = useStore();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
@@ -59,10 +45,11 @@ const Header: FC<IHeaderProps> = () => {
 
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
-            {userSignIn ?
+            {currentUser ?
               <UserInfo/>
               :
-              <span className="has-hover has-hover-affect has-text-primary has-hover-underline" onClick={() => setLoginIsOpen(true)}>Sign In</span>
+              <span className="has-hover has-hover-affect has-text-primary has-hover-underline"
+                    onClick={() => setLoginIsOpen(true)}>Sign In</span>
             }
           </li>
           <li className="nav-item">

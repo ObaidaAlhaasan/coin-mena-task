@@ -130,8 +130,8 @@ const ReusableTable: FC<ITableProps> = (props) => {
             </button>
           </div>
         </div>
-        <span className="">
-          Page
+        <span>
+          <span className="me-1">Page</span>
           <strong className="has-text-primary">
             {pageIndex + 1} <span className="text-dark">of</span> {pageOptions.length}
           </strong>{' '}
