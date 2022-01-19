@@ -9,6 +9,7 @@ import ReusableTable from "../../../../components/reusable-table/reusable-table"
 import {ExternalUrlsConstants} from "../../../../services/constants";
 import ButtonDropdown from "../../../../components/drop-down/button-dropdown";
 import {Row} from "react-table";
+import Container from "../../../../components/container/container";
 
 interface ICryptoAssetsTable {
 
@@ -88,7 +89,7 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
         accessor: "",
         Cell: () => {
           return (
-            <ButtonDropdown label="Trade" className="btn btn-secondary d-flex align-items-center w-7rem"
+            <ButtonDropdown label="Trade" className="btn btn-outline-secondary d-flex align-items-center w-7rem"
                             items={[<button className="btn btn-primary w-7rem"> Buy</button>,
                               <button className="btn btn-primary w-7rem">Sell</button>]}
             >
@@ -119,18 +120,20 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
     return <LoadingError title="Crypto Assets"/>;
 
   return (
-    <div className="crypto-assets-table row justify-content-center">
-      <div className="col-8 table-responsive">
-        <ReusableTable columns={columns}
-                       data={data}
-                       queryPageIndex={queryPageIndex}
-                       queryPageSize={queryPageItemsCount}
-                       totalCount={response?.status?.elapsed ?? 10}
-                       setPageIndex={setPageIndex}
-                       setPageItemsCount={setPageItemsCount}
-        />
+    <Container>
+      <div className="crypto-assets-table row justify-content-center">
+        <div className="col-8 table-responsive">
+          <ReusableTable columns={columns}
+                         data={data}
+                         queryPageIndex={queryPageIndex}
+                         queryPageSize={queryPageItemsCount}
+                         totalCount={response?.status?.elapsed ?? 10}
+                         setPageIndex={setPageIndex}
+                         setPageItemsCount={setPageItemsCount}
+          />
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 export default CryptoAssetsTable;

@@ -5,6 +5,7 @@ import "./header.scss";
 import RoutesPathsConstants from "../../navigation/routes-paths-constants";
 import LoginModal from "../modals/login/login";
 import {AppThemes} from "../../types/UI/AppThemes";
+import Logo from "../logo/logo";
 
 interface IHeaderProps {
 }
@@ -41,7 +42,8 @@ const Header: FC<IHeaderProps> = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
-      <img src="assets/svgs/bitcoin.svg" alt="logo" className="logo navbar-brand"/>
+      <Logo/>
+
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"/>
@@ -62,7 +64,8 @@ const Header: FC<IHeaderProps> = () => {
             {userSignIn ?
               <UserInfo/>
               :
-              <span className="has-hover has-hover-affect has-text-primary has-hover-underline" onClick={() => setLoginIsOpen(true)}>Sign In</span>
+              <span className="has-hover has-hover-affect has-text-primary has-hover-underline"
+                    onClick={() => setLoginIsOpen(true)}>Sign In</span>
             }
           </li>
           <li className="nav-item">
