@@ -7,6 +7,7 @@ import "./crypto-assets-table.scss";
 import MoneyFormatterService from "../../../../services/money-formatter";
 import ReusableTable from "../../../../components/reusable-table/reusable-table";
 import {ExternalUrlsConstants} from "../../../../services/constants";
+import ButtonDropdown from "../../../../components/drop-down/button-dropdown";
 
 interface ICryptoAssetsTable {
 
@@ -54,7 +55,7 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
   const {
     data: response,
     status
-  } = useQuery<ICryptoAssetResponse>(["crypto-assets", queryPageIndex, queryPageItemsCount], () => fetchCryptos(queryPageIndex+1, queryPageItemsCount), {keepPreviousData: true});
+  } = useQuery<ICryptoAssetResponse>(["crypto-assets", queryPageIndex, queryPageItemsCount], () => fetchCryptos(queryPageIndex + 1, queryPageItemsCount), {keepPreviousData: true});
   const data = response?.data ?? [];
 
   const columns = useMemo(
@@ -87,14 +88,16 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
         disableSortBy: true
       },
       {
-        Header: "Trade",
+        id: "Trade",
+        Header: "",
         accessor: "",
         Cell: () => {
           return (
-            <div>
-              <button className="btn btn-primary mx-1"> Buy</button>
-              <button className="btn btn-primary mx-1">Sell</button>
-            </div>
+            <ButtonDropdown label="Trade" className="btn btn-secondary d-flex align-items-center w-50"
+                            items={[<button className="btn btn-primary w-50"> Buy</button>,
+                              <button className="btn btn-primary w-50">Sell</button>]}
+            >
+            </ButtonDropdown>
           )
         },
         disableSortBy: true,
