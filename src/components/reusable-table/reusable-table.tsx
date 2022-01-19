@@ -11,15 +11,8 @@ interface ITableProps {
   setPageItemsCount: (size: number) => void;
 }
 
-const ReusableTable: FC<ITableProps> = ({
-                                          columns,
-                                          data,
-                                          queryPageIndex,
-                                          queryPageSize,
-                                          totalCount,
-                                          setPageIndex,
-                                          setPageItemsCount
-                                        }) => {
+const ReusableTable: FC<ITableProps> = (props) => {
+  const {columns, data, queryPageIndex, queryPageSize, totalCount, setPageIndex, setPageItemsCount} = props;
 
   const {
     headerGroups,
@@ -117,10 +110,12 @@ const ReusableTable: FC<ITableProps> = ({
           </div>
 
           <div className="btn-group mx-1">
-            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => nextPage()} disabled={!canNextPage}>
+            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => nextPage()}
+                    disabled={!canNextPage}>
               <i className="fas fa-angle-right"/>
             </button>
-            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => gotoPage(pageCount - 1)}
+            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary"
+                    onClick={() => gotoPage(pageCount - 1)}
                     disabled={!canNextPage}>
               <i className="fas fa-angle-double-right"/>
             </button>
