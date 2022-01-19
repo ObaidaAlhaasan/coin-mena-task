@@ -48,17 +48,12 @@ const ReusableTable: FC<ITableProps> = (props) => {
   )
 
   useEffect(() => {
-    console.log("change on size", pageSize);
     setPageItemsCount(pageSize);
   }, [pageSize]);
 
   useEffect(() => {
     setPageIndex(pageIndex);
   }, [pageIndex]);
-
-  useEffect(() => {
-    console.log("Change on ", expanded);
-  }, [expanded]);
 
   return (
     <>
