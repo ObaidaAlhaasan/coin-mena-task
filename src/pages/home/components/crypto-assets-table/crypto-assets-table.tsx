@@ -6,19 +6,19 @@ import LoadingError from "../../../../components/loading-error/loading-error";
 import "./crypto-assets-table.scss";
 import MoneyFormatterService from "../../../../services/money-formatter";
 import ReusableTable from "../../../../components/reusable-table/reusable-table";
+import {ExternalUrlsConstants} from "../../../../services/constants";
 
 interface ICryptoAssetsTable {
 
 }
 
+const cryptoField = `&fields=id,slug,symbol,metrics/market_data/price_usd`;
+
 const fetchCryptos = async (page: number = 1, count: number = 10) => {
   console.log("page", page, "count", count);
-  const fields = `&fields=id,slug,symbol,metrics/market_data/price_usd`;
-
-  // const r = await fetch(`${ExternalUrlsConstants.CryptoAssets}?page=${page}&limit=${count}${fields}`).then(r => r.json());
-  return await fetch("https://data.messari.io/api/v1/assets?page=1&limit=20&fields=id,slug,symbol,metrics/market_data/price_usd").then(r => r.json());
-  // console.log(r);
-  // return r;
+  const r = await fetch(`${ExternalUrlsConstants.CryptoAssets}?page=${page}&limit=${count}${cryptoField}`).then(r => r.json());
+  console.log(r);
+  return r;
 }
 
 interface ICryptoAsset {
@@ -48,16 +48,16 @@ const CryptoIcon: FC<{ iconName: string }> = (props) => {
 }
 
 const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
-  const [pageIndex, setPageIndex] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [queryPageIndex, setPageIndex] = useState<number>(0);
+  const [queryPageItemsCount, setPageItemsCount] = useState<number>(10);
 
   const {
     data: response,
     status
-  } = useQuery<ICryptoAssetResponse>(["crypto-assets", pageIndex, pageSize], () => fetchCryptos(pageIndex, pageSize), {keepPreviousData: true});
+  } = useQuery<ICryptoAssetResponse>(["crypto-assets", queryPageIndex, queryPageItemsCount], () => fetchCryptos(queryPageIndex+1, queryPageItemsCount), {keepPreviousData: true});
   const data = response?.data ?? [];
 
-  const columns = useMemo<any>(
+  const columns = useMemo(
     () => [
       {
         Header: "",
@@ -72,26 +72,18 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
       {
         Header: "Name",
         accessor: "slug",
-        Cell: (cell: { value: string }) => {
-          console.log(cell);
-          return <>  <span className="text-capitalize ">{cell.value}</span> </>
-        }
+        Cell: (cell: { value: string }) => <span className="text-capitalize ">{cell.value}</span>
       },
       {
         Header: "Price",
         accessor: "metrics.market_data.price_usd",
-        Cell: (cell: { value: string }) => {
-          return <span className="">{MoneyFormatterService.Format(cell.value)}</span>
-        }
+        Cell: (cell: { value: string }) => <span className="">{MoneyFormatterService.Format(cell.value)}</span>
       },
       {
         id: "symbol_id",
         Header: "ID",
         accessor: "symbol",
-        Cell: (cell: { value: string }) => {
-          console.log(cell);
-          return <>  <span className="text-capitalize ">{cell.value}</span> </>
-        },
+        Cell: (cell: { value: string }) => <span className="text-capitalize ">{cell.value}</span>,
         disableSortBy: true
       },
       {
@@ -99,9 +91,9 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
         accessor: "",
         Cell: () => {
           return (
-            <div className="">
-              <button className="btn btn-primary"> Buy</button>
-              <button className="btn btn-primary">Sell</button>
+            <div>
+              <button className="btn btn-primary mx-1"> Buy</button>
+              <button className="btn btn-primary mx-1">Sell</button>
             </div>
           )
         },
@@ -119,14 +111,13 @@ const CryptoAssetsTable: FC<ICryptoAssetsTable> = () => {
   return (
     <div className="crypto-assets-table row justify-content-center">
       <div className="col-8 table-responsive">
-        <ReusableTable columns={columns} data={data}
-                       pageIndex={pageIndex}
-                       pageSize={pageSize}
-                       totalItems={response?.status?.elapsed ?? 10}
-                       nextPage={() => setPageIndex(pageIndex + 1)}
-                       previousPage={() => setPageIndex(pageIndex - 1)}
-                       goToPage={setPageIndex}
-                       setPageSize={setPageSize}
+        <ReusableTable columns={columns}
+                       data={data}
+                       queryPageIndex={queryPageIndex}
+                       queryPageSize={queryPageItemsCount}
+                       totalCount={response?.status?.elapsed ?? 10}
+                       setPageIndex={setPageIndex}
+                       setPageItemsCount={setPageItemsCount}
         />
       </div>
     </div>
