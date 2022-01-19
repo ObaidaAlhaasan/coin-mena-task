@@ -41,7 +41,7 @@ const Header: FC<IHeaderProps> = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
-      <img src="assets/images/bitcoin.svg" alt="logo" className="logo navbar-brand"/>
+      <img src="assets/svgs/bitcoin.svg" alt="logo" className="logo navbar-brand"/>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"/>

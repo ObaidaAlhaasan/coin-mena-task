@@ -10,11 +10,33 @@
 }
 
 .has-text-primary {
-  color: $primary-color ;
+  color: $primary-color;
 }
 
 .has-hover-underline {
   &:hover {
     text-decoration: underline;
   }
+}
+
+.has-hover-text-primary {
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.w-fit-content {
+  width: fit-content;
+}
+
+.w-7rem {
+  width: 7rem;
+}
+
+.fn-size-2rem {
+  font-size: 2rem;
+}
+
+.w-2rem {
+  width: 2rem;
 }

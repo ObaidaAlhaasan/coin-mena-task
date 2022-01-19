@@ -19,7 +19,7 @@ const WhyChooseSection: FC = () => {
 
         <Col md={12}>
           <Row>
-            {chooseReasons.map(r => <Reason reason={r}/>)}
+            {chooseReasons.map((r, i) => <Reason key={i} reason={r}/>)}
           </Row>
         </Col>
       </Row>

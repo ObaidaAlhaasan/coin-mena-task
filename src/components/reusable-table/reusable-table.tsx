@@ -1,61 +1,62 @@
-import React, {FC} from "react";
-import {usePagination, useSortBy, useTable} from "react-table";
+import React, {FC, useEffect} from "react";
+import {useExpanded, usePagination, useSortBy, useTable} from "react-table";
+import exp from "constants";
 
 interface ITableProps {
   columns: any[];
   data: any[];
-  pageIndex: number;
-  pageSize: number;
-  totalItems:number
-  goToPage: (page: number) => void;
-  nextPage: () => void;
-  previousPage: () => void;
-  setPageSize: (size: number) => void;
+  queryPageIndex: number;
+  queryPageSize: number;
+  totalCount: number;
+  setPageIndex: (pageInd: number) => void;
+  setPageItemsCount: (size: number) => void;
 }
 
-const ReusableTable: FC<ITableProps> = ({columns, data, pageIndex, pageSize, totalItems,  goToPage, nextPage, previousPage, setPageSize}) => {
-  const canPreviousPage = pageIndex > 0;
-  const canNextPage = pageIndex < pageSize;
-  const pagesCount = Math.ceil(totalItems / pageSize);
-  const pageSizes: number[] = Array.from({length:pagesCount});
-
-  console.log(pageSize);
-
+const ReusableTable: FC<ITableProps> = (props) => {
+  const {columns, data, queryPageIndex, queryPageSize, totalCount, setPageIndex, setPageItemsCount} = props;
 
   const {
+    headerGroups,
+    canPreviousPage,
+    canNextPage,
+    pageCount,
+    pageOptions,
+    page,
+    state: {pageIndex, pageSize, expanded},
+
+    gotoPage,
     getTableProps,
     getTableBodyProps,
-    headerGroups,
+    previousPage,
+    nextPage,
+    setPageSize,
     prepareRow,
-    page,
   } = useTable(
     {
       columns,
       data,
-      initialState: {pageIndex, pageSize},
+      initialState: {
+        pageIndex: queryPageIndex,
+        pageSize: queryPageSize,
+      },
+      manualPagination: true,
+      pageCount: Math.ceil(totalCount / queryPageSize)
     },
     useSortBy,
-    usePagination
+    useExpanded,
+    usePagination,
   )
+
+  useEffect(() => {
+    setPageItemsCount(pageSize);
+  }, [pageSize]);
+
+  useEffect(() => {
+    setPageIndex(pageIndex);
+  }, [pageIndex]);
 
   return (
     <>
-      <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              canNextPage,
-              canPreviousPage,
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre>
-      <br/>
-
       <table {...getTableProps()} className="table table-hover">
         <thead>
         {headerGroups.map(headerGroup => (
@@ -67,8 +68,8 @@ const ReusableTable: FC<ITableProps> = ({columns, data, pageIndex, pageSize, tot
                   <span className="d-inline-block mx-2 ">
                   {column.isSorted ?
                     column.isSortedDesc
-                      ? <i className="fas fa-angle-up "/>
-                      : <i className="fas fa-angle-down "/>
+                      ? <i className="fas fa-angle-up has-text-primary "/>
+                      : <i className="fas fa-angle-down has-text-primary"/>
                     :
                     ''
                   }
@@ -82,15 +83,23 @@ const ReusableTable: FC<ITableProps> = ({columns, data, pageIndex, pageSize, tot
         </thead>
 
         <tbody {...getTableBodyProps()}>
-
         {page.map((row, i) => {
           prepareRow(row)
           return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </tr>
+            <>
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                })}
+              </tr>
+              {row.isExpanded &&
+                <tr>
+                  {row.cells.map((cell) => {
+                    return <td {...cell.getCellProps()}><p>Lorem ipsum dolor sit amet, consectetur.</p></td>
+                  })}
+                </tr>
+              }
+            </>
           )
         })}
         </tbody>
@@ -99,21 +108,23 @@ const ReusableTable: FC<ITableProps> = ({columns, data, pageIndex, pageSize, tot
       <div className="pagination d-flex align-items-center justify-content-between">
         <div>
           <div className="btn-group mx-1">
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => goToPage(0)}
+            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => gotoPage(0)}
                     disabled={!canPreviousPage}>
-              <i className="fas fa-angle-double-left"/>
+              <i className="fas fa-angle-double-left "/>
             </button>
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => previousPage()}
+            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => previousPage()}
                     disabled={!canPreviousPage}>
               <i className="fas fa-angle-left"/>
             </button>
           </div>
 
           <div className="btn-group mx-1">
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => nextPage()} disabled={!canNextPage}>
+            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => nextPage()}
+                    disabled={!canNextPage}>
               <i className="fas fa-angle-right"/>
             </button>
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => goToPage(pagesCount - 1)}
+            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary"
+                    onClick={() => gotoPage(pageCount - 1)}
                     disabled={!canNextPage}>
               <i className="fas fa-angle-double-right"/>
             </button>
@@ -121,18 +132,16 @@ const ReusableTable: FC<ITableProps> = ({columns, data, pageIndex, pageSize, tot
         </div>
         <span className="">
           Page
-          <strong>
-            {pageIndex + 1} of {pagesCount}
+          <strong className="has-text-primary">
+            {pageIndex + 1} <span className="text-dark">of</span> {pageOptions.length}
           </strong>{' '}
         </span>
 
         <div className="mx-3 d-flex align-items-center">
           <span className="me-2">Rows Per Page: </span>
-          <select className="form-control-sm" id="rows-per-page">
+          <select className="form-control-sm" id="rows-per-page" onChange={e => setPageSize(Number(e.target.value))}>
             {[10, 20, 30, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize} onChange={e => {
-                setPageSize(pageSize)
-              }}>
+              <option key={pageSize} value={pageSize}>
                 {pageSize}
               </option>
             ))}
