@@ -5,7 +5,9 @@ const UserInfo: FC = () => {
   const {currentUser} = useStore();
 
   return <div>
-    Welcome <strong className="has-text-primary">{currentUser?.username}</strong>
+    <img src={currentUser?.profilePic} className="user-profile-pic" alt="user icon"/>
+
+    <strong className="has-text-primary">{currentUser?.username}</strong>
   </div>
 }
 
