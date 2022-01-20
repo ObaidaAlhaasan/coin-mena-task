@@ -6,6 +6,7 @@ import RoutesPathsConstants from "../../navigation/routes-paths-constants";
 import LoginModal from "../modals/login/login";
 import {AppThemes} from "../../types/UI/AppThemes";
 import {useStore} from "../../store/store";
+import Logo from "../logo/logo";
 
 const navLinkClassName = (props: { isActive: boolean }) => props.isActive ? 'nav-link-active' : 'has-hover-affect';
 
@@ -24,7 +25,8 @@ const Header: FC = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
-      <img src="assets/svgs/bitcoin.svg" alt="logo" className="logo navbar-brand"/>
+      <Logo/>
+
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"/>
@@ -41,6 +43,7 @@ const Header: FC = () => {
         </ul>
 
         <ul className="navbar-nav ms-auto">
+
           <li className="nav-item">
             {currentUser ?
               <>
@@ -52,6 +55,7 @@ const Header: FC = () => {
                     onClick={() => setLoginIsOpen(true)}>Sign In</span>
             }
           </li>
+
           <li className="nav-item">
             <span className="has-hover">
               {theme === "Light"
@@ -60,6 +64,7 @@ const Header: FC = () => {
               }
             </span>
           </li>
+
         </ul>
       </div>
 

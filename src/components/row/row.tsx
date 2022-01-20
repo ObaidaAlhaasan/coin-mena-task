@@ -1,8 +1,12 @@
 import React, {FC} from 'react';
 
-const Row: FC = ({children}) => {
+interface IRowProps {
+  className?: string
+}
+
+const Row: FC<IRowProps> = ({children, className}) => {
   return (
-    <div className="row">
+    <div className={`row ${className ?? ''}`}>
       {children}
     </div>
   );
