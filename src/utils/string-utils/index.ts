@@ -15,3 +15,6 @@ export const validateEmail = (email: string) => emailPattern.test(email);
 
 const passwordPattern = /^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$/
 export const validatePassword = (pass: string) => passwordPattern.test(pass);
+
+const textPattern = /^([a-zA-Z]){4,20}$/
+export const validateText = (text: string) => textPattern.test(text);

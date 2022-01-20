@@ -6,6 +6,7 @@ interface IAppState {
   currentUser: ILoggedInUser | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  checkAlreadyLoggedIn: () => void;
 }
 
 
@@ -16,13 +17,26 @@ export const useStore = create<IAppState>((set) => ({
     const user = await useAuth(email, password);
     if (!user)
       return;
-    set((state) => ({
+    set(() => ({
       currentUser: {...user}
     }));
+
+    localStorage.setItem('currentUser', JSON.stringify(user));
   },
   logout: () => {
-    set((state) => ({
+    set(() => ({
       currentUser: null
     }));
+
+    localStorage.removeItem('currentUser');
+  },
+  checkAlreadyLoggedIn: () => {
+    const currentUserStr = localStorage.getItem('currentUser');
+    if (currentUserStr) {
+      const user = JSON.parse(currentUserStr);
+      set(() => ({
+        currentUser: {...user}
+      }));
+    }
   }
 }));

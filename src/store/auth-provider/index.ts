@@ -12,7 +12,7 @@ const useAuth = (email: string, password: string): Promise<ILoggedInUser | null>
       email,
       username: parseUsernameFromEmail(email),
       loggedInDate: new Date(), // assign when this user logged in to simulate refresh token
-      profilePic: "/assets/images/generic-profile.png" // simulate a stored pic on server
+      profilePic: "/assets/images/avatar.png" // simulate a stored pic on server
     });
   } catch (e) {
     return Promise.reject((e as Error).message);
