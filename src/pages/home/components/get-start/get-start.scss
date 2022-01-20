@@ -1,0 +1,20 @@
+@import "../../../../styles/variables";
+.get-start {
+  background-image: url('../../../../../public/assets/images/easy-bg_optimized.png');
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-size: contain;
+  padding: 5rem 0;
+  .get-start__demo img {
+    width: 600px;
+  }
+
+  .feature-text {
+    line-height: 1.5;
+    transform: translateY(6rem);
+    &__title {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+  }
+}

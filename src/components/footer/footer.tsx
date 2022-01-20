@@ -5,16 +5,7 @@ import Row from "../row/row";
 import Col from "../col/col";
 import Logo from "../logo/logo";
 import {FooterItems, SocialLinks} from "./constant";
-
-const FooterPrivacy = () => (
-  <>
-    <Col md={12} className="d-flex justify-content-between footer-privacy my-3 p-1">
-      <p className="m-0">Copyright © 2022 Tokenize. All rights reserved.</p>
-      <p className="m-0">Terms & Conditions | Privacy Policy</p>
-    </Col>
-  </>
-);
-
+import FooterPrivacy from "./components/footer-privacy/footer-privacy";
 
 const Footer = () => {
   return (
@@ -46,7 +37,7 @@ const Footer = () => {
             <ul className="list-group list-unstyled">
               <li><h4>LET'S TALK</h4></li>
               <li className="list-item-social">
-                {SocialLinks.map((s, i) => <i className={`fab fa-${s.name} mx-2 has-hover has-hover-affect`}/>)}
+                {SocialLinks.map((s, i) => <i key={i} className={`fab fa-${s.name} mx-2 has-hover has-hover-affect`}/>)}
               </li>
             </ul>
           </Col>

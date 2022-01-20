@@ -1,5 +1,7 @@
-import React, {FC, FormEvent} from 'react';
+import React, {FC, FormEvent, useEffect, useState} from 'react';
 import "./login.scss";
+import {useStore} from "../../../store/store";
+import {InputWithValidation, validationInput} from "../../input/input-with-validation/input-with-validation";
 
 interface ILoginProps {
   onClose?: () => void;
@@ -7,10 +9,37 @@ interface ILoginProps {
 }
 
 const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
+  const [email, setEmail] = useState<validationInput>({
+    value: '',
+    isValid: null,
+    validationMsg: null
+  });
 
-  const onLogin = (e?: FormEvent<HTMLFormElement>) => {
+  const [password, setPassword] = useState<validationInput>({
+    value: '',
+    isValid: null,
+    validationMsg: null
+  });
+
+  const {login} = useStore();
+
+  const onLogin = async (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
+
+    await login(email.value, password.value);
+    onClose?.();
   }
+
+  const resetState = () => {
+    setPassword({value: '', isValid: null, validationMsg: null});
+    setEmail({value: '', isValid: null, validationMsg: null});
+  }
+
+  useEffect(() => {
+    return function cleanup() {
+      resetState();
+    }
+  }, []);
 
   return <div className={`modal ${show ? 'enter-done' : 'exit'}`} onClick={onClose}>
     <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -22,18 +51,28 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
       </div>
 
       <div className="modal-body">
-        <form onSubmit={onLogin}>
+        <form onSubmit={onLogin} autoComplete="off">
           <div className="row">
             <div className="col-md-6">
-              <label htmlFor="Email">Email</label>
-              <input type="text" className='form-control' id="Email"/>
+              <InputWithValidation id="Email"
+                                   label="Email"
+                                   type="email"
+                                   input={email}
+                                   onAfterChange={setEmail}/>
             </div>
+
             <div className="col-md-6">
-              <label htmlFor="Password">Password</label>
-              <input type="password" className='form-control' id="Password"/>
+              <InputWithValidation id="Password"
+                                   label="Password"
+                                   type="password"
+                                   input={password}
+                                   onAfterChange={setPassword}/>
             </div>
+
             <div className="col-md-3 my-3">
-              <button type="submit" className="btn btn-primary">Login</button>
+              <button type="submit" className="btn btn-primary" disabled={!email.isValid || !password.isValid}>
+                Login
+              </button>
             </div>
           </div>
         </form>

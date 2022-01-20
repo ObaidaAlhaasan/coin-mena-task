@@ -5,40 +5,16 @@ import "./header.scss";
 import RoutesPathsConstants from "../../navigation/routes-paths-constants";
 import LoginModal from "../modals/login/login";
 import {AppThemes} from "../../types/UI/AppThemes";
+import {useStore} from "../../store/store";
 import Logo from "../logo/logo";
-
-interface IHeaderProps {
-}
+import UserInfo from "./components/user-info/user-info";
 
 const navLinkClassName = (props: { isActive: boolean }) => props.isActive ? 'nav-link-active' : 'has-hover-affect';
-const userSignIn = false;
 
-interface ILoggedInUser {
-  username: string;
-  email: string;
-  profilePic?: string;
-  loggedInDate?: Date;
-}
-
-const useUser = (): ILoggedInUser => {
-  return {
-    username: "Sokania",
-    email: "so@so.com",
-    loggedInDate: new Date()
-  }
-}
-
-const UserInfo: FC = () => {
-  const user = useUser();
-  return <div>
-    Welcome {user.username}
-  </div>
-}
-
-
-const Header: FC<IHeaderProps> = () => {
+const Header: FC = () => {
   const [loginIsOpen, setLoginIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useState<AppThemes>(AppThemes.Light);
+  const {currentUser, logout} = useStore();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
@@ -60,26 +36,33 @@ const Header: FC<IHeaderProps> = () => {
         </ul>
 
         <ul className="navbar-nav ms-auto">
-          <li className="nav-item">
-            {userSignIn ?
+
+          <li className="nav-item d-flex">
+            {currentUser ?
               <UserInfo/>
               :
               <span className="has-hover has-hover-affect has-text-primary has-hover-underline"
                     onClick={() => setLoginIsOpen(true)}>Sign In</span>
             }
           </li>
+
           <li className="nav-item">
             <span className="has-hover">
               {theme === "Light"
                 ? <i className="fas fa-sun has-text-primary" onClick={() => setTheme(AppThemes.Dark)}/>
                 : <i className="fas fa-moon has-text-primary" onClick={() => setTheme(AppThemes.Light)}/>
               }
+              {currentUser &&
+                <span onClick={logout} className="mx-4 has-hover has-hover-affect">
+                  <i className="fas fa-sign-out-alt"/>
+                </span>
+              }
             </span>
           </li>
         </ul>
       </div>
 
-      <LoginModal onClose={() => setLoginIsOpen(false)} show={loginIsOpen}/>
+      {loginIsOpen && <LoginModal onClose={() => setLoginIsOpen(false)} show={loginIsOpen}/>}
     </nav>
   );
 };
