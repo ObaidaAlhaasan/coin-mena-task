@@ -9,7 +9,7 @@ import FooterPrivacy from "./components/footer-privacy/footer-privacy";
 
 const Footer = () => {
   return (
-    <div className="footer bg-light pt-5">
+    <div className="footer bg-light pt-5 pb-2">
       <Container>
         <Row>
           <Col md={3}>

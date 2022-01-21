@@ -7,7 +7,6 @@ class MoneyFormatterService {
   public static Format(value: string) {
     return MoneyFormatterService._formatter.format(Number(value));
   }
-
 }
 
 export default MoneyFormatterService;
