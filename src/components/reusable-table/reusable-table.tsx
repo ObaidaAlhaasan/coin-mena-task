@@ -1,6 +1,5 @@
 import React, {FC, useEffect} from "react";
 import {useExpanded, usePagination, useSortBy, useTable} from "react-table";
-import exp from "constants";
 
 interface ITableProps {
   columns: any[];
@@ -59,8 +58,8 @@ const ReusableTable: FC<ITableProps> = (props) => {
     <>
       <table {...getTableProps()} className="table table-hover">
         <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+        {headerGroups.map((headerGroup , i) => (
+          <tr  {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
               <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                 <div className="d-flex align-items-center">

@@ -1,4 +1,6 @@
 @import "../../../../styles/variables";
+@import "../../../../styles/mixins";
+
 .get-start {
   background-image: url('../../../../../public/assets/images/easy-bg_optimized.png');
   background-repeat: no-repeat;
@@ -6,12 +8,14 @@
   background-size: contain;
   padding: 5rem 0;
   .get-start__demo img {
-    width: 600px;
+    width: 90%;
   }
-
   .feature-text {
     line-height: 1.5;
     transform: translateY(6rem);
+    @include respond(phone) {
+      transform: translateY(1rem);
+    }
     &__title {
       font-size: 0.8rem;
       font-weight: 600;

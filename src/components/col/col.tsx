@@ -9,7 +9,7 @@ interface IColProps {
 
 const Col: FC<IColProps> = ({lg, md, className, children}) => {
   return (
-    <div className={`col-md-${md} ${className ?? ''}`}>
+    <div className={`col-sm-12 col-md-${md} col-lg-${lg} ${className ?? ''}`}>
       {children}
     </div>
   );

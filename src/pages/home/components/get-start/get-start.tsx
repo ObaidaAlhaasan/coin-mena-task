@@ -9,8 +9,8 @@ const GetStart = () => {
   return (
     <section className="get-start">
       <Container>
-        <Row >
-          <Col md={6}>
+        <Row  className="text-center text-md-start">
+          <Col md={12} lg={6}>
             <div className="get-start__demo">
               <img src="/assets/images/easy-illustration_optimized.png" alt=""/>
             </div>

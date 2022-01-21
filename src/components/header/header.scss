@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
 .nav-item {
-  margin: 0 2em;
+  margin: 0 1em;
 }
 
 .nav-link-active {
@@ -21,4 +21,7 @@ a {
   width: 2.2rem;
   height: 2.2rem;
   border-radius: 50%;
+}
+.collapse.navbar-collapse.show .nav-item {
+  padding: 0.6rem 0;
 }

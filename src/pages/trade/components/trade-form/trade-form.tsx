@@ -7,7 +7,6 @@ import {
   CryptoCurrency, exchangeSrc,
   ICryptoAsset, strOrNum,
 } from "../../../../types/cryptos";
-import {Dropdown} from "../../../../components/drop-down/drop-down";
 import {useDebounce} from "../../../../hooks/useDebounce";
 import {useCryptoAssets} from "../../../../hooks/useCryptoAssets";
 import {useRate} from "../../../../hooks/useRate";
@@ -23,8 +22,6 @@ const TradeForm: FC = () => {
 
   const debouncedCurrency = useDebounce<strOrNum>(currency, DelayEventInMilliSecond);
   const debouncedCryptoAmt = useDebounce<strOrNum>(cryptoAmt, DelayEventInMilliSecond);
-
-  const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
 
   const {data: response, status} = useCryptoAssets();
   const cryptos = response?.data ?? [];
@@ -72,12 +69,7 @@ const TradeForm: FC = () => {
   if (status === "error")
     return <LoadingError title="Crypto Assets"/>
 
-  const toggleDropDown = () => {
-    setIsDropDownOpen(!isDropDownOpen);
-  };
-
   const onSelectCrypto = (d: ICryptoAsset) => {
-    setIsDropDownOpen(!isDropDownOpen);
     setCrypto(d);
     setExchangeSrc('Crypto')
   }
@@ -94,49 +86,46 @@ const TradeForm: FC = () => {
 
   return (
     <div className="trade-from">
-      <div className="input-group input-group-prepend show">
+      <div className="input-group input-group-prepend">
         <input type="number" className="form-control" aria-label="Text input with dropdown button"
                onChange={onChangeAmtChange}
                value={cryptoAmt}
         />
         <div className="input-group-append">
-          <button className={`btn btn-light dropdown-toggle ${isDropDownOpen && 'show'}`}
-                  type="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  onClick={toggleDropDown}
-          >
-            <CryptoIcon iconName={crypto?.symbol ?? ""}/>
-          </button>
 
-          <Dropdown className={`${isDropDownOpen && 'show'}`}>
-            {cryptos.map((c: ICryptoAsset, i) => <span key={i} className="dropdown-item"
-                                                       onClick={() => onSelectCrypto(c)}>
-              <CryptoIcon iconName={c?.symbol ?? ""}/>
-              <span>{c.symbol}</span>
-            </span>)}
-          </Dropdown>
+          <div className="dropdown">
+            <button className="btn btn-sm dropdown-toggle btn-outline-secondary" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+              <CryptoIcon iconName={crypto?.symbol ?? ""}/>
+              <span>{crypto?.symbol ?? ""}</span>
+            </button>
+            <ul className="dropdown-menu small overflow-auto" aria-labelledby="dropdownMenuButton1">
+              {cryptos.map((c: ICryptoAsset, i) =>(
+                <li>
+                  <button className="dropdown-item btn-sm d-flex align-items-center gap-2"   onClick={() => onSelectCrypto(c)}>
+                    <CryptoIcon iconName={c?.symbol ?? ""}/>
+                    <span>{c.symbol}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-
       </div>
       <div className="crypto-form-separator text-center my-3">
         <span className="crypto-form-separator--line">
-          <i className="fas fa-arrow-alt-circle-down has-hover-text-primary has-hover"/>
+         <i className="fas fa-sync"></i>
         </span>
       </div>
 
       <div className="input-group mb-3">
         <div className="input-group-prepend">
-          <span className="input-group-text bg-light">
+          <span className="h-100 input-group-text bg-light">
             $
           </span>
         </div>
-        <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)" value={currency}
+        <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={currency}
                onChange={onCurrencyChange}/>
-        <div className="input-group-append">
-          <span className="input-group-text bg-light">.00</span>
-        </div>
       </div>
 
     </div>

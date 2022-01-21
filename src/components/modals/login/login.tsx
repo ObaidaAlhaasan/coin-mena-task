@@ -41,7 +41,7 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
     }
   }, []);
 
-  return <div className={`modal ${show ? 'enter-done' : 'exit'}`} onClick={onClose}>
+  return  <div className={`modal ${show ? 'enter-done' : 'exit'}`} onClick={onClose}>
     <div className="modal-content" onClick={e => e.stopPropagation()}>
       <div className="modal-header">
         <h4 className="modal-title">Login</h4>
@@ -52,8 +52,8 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
 
       <div className="modal-body">
         <form onSubmit={onLogin} autoComplete="off">
-          <div className="row">
-            <div className="col-md-6">
+          <div className="row mt-3">
+            <div className="mb-3">
               <InputWithValidation id="Email"
                                    label="Email"
                                    type="email"
@@ -61,7 +61,7 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
                                    onAfterChange={setEmail}/>
             </div>
 
-            <div className="col-md-6">
+            <div className="mb-3">
               <InputWithValidation id="Password"
                                    label="Password"
                                    type="password"

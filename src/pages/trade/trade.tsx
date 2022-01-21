@@ -10,8 +10,8 @@ interface ITradeProps {
 
 const Trade: FC<ITradeProps> = () => {
   return (
-    <Container className="trade mt-5">
-      <Row className="justify-content-center ">
+    <Container className="trade mt-5 d-flex align-items-center justify-content-center">
+      <Row className="justify-content-center  w-100 ">
         <Col md={4}>
           <TradeForm/>
         </Col>
