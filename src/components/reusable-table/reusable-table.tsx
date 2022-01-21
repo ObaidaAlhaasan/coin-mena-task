@@ -37,11 +37,11 @@ const ReusableTable: FC<ITableProps> = (props) => {
         <thead>
         {headerGroups.map((headerGroup, i) => (<tr  {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (<th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                <div className="d-flex align-items-center has-text-secondary">
+                <div className="d-flex align-items-center text-white">
                   <span>{column.render('Header')}</span>
                   <span className="d-inline-block mx-2 ">
-                  {column.isSorted ? column.isSortedDesc ? <i className="fas fa-angle-up has-text-primary "/> :
-                    <i className="fas fa-angle-down has-text-primary"/> : ''}
+                  {column.isSorted ? column.isSortedDesc ? <i className="fas fa-angle-up  text-white "/> :
+                    <i className="fas fa-angle-down  text-white"/> : ''}
               </span>
                 </div>
               </th>))}
@@ -60,7 +60,7 @@ const ReusableTable: FC<ITableProps> = (props) => {
               </tr>
               {row.isExpanded && <tr>
                 {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}><p>Lorem ipsum dolor sit amet, consectetur.</p></td>
+                  return <td {...cell.getCellProps()} className=" text-white"><p>Lorem ipsum dolor sit amet, consectetur.</p></td>
                 })}
               </tr>}
             </>)
@@ -71,38 +71,38 @@ const ReusableTable: FC<ITableProps> = (props) => {
       <div className="pagination d-flex align-items-center justify-content-between">
         <div>
           <div className="btn-group mx-1">
-            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => gotoPage(0)}
+            <button className="btn btn-sm btn-outline-secondary" onClick={() => gotoPage(0)}
                     disabled={!canPreviousPage}>
-              <i className="fas fa-angle-double-left "/>
+              <i className="fas fa-angle-double-left text-white has-hover-text-primary"/>
             </button>
-            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => previousPage()}
+            <button className="btn btn-sm btn-outline-secondary" onClick={() => previousPage()}
                     disabled={!canPreviousPage}>
-              <i className="fas fa-angle-left"/>
+              <i className="fas fa-angle-left text-white has-hover-text-primary"/>
             </button>
           </div>
 
           <div className="btn-group mx-1">
-            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary" onClick={() => nextPage()}
+            <button className="btn btn-sm btn-outline-secondary" onClick={() => nextPage()}
                     disabled={!canNextPage}>
-              <i className="fas fa-angle-right"/>
+              <i className="fas fa-angle-right text-white has-hover-text-primary"/>
             </button>
-            <button className="btn btn-sm btn-outline-secondary has-hover-text-primary"
+            <button className="btn btn-sm btn-outline-secondary"
                     onClick={() => gotoPage(pageCount - 1)}
                     disabled={!canNextPage}>
-              <i className="fas fa-angle-double-right"/>
+              <i className="fas fa-angle-double-right text-white has-hover-text-primary"/>
             </button>
           </div>
         </div>
         <span>
-          <span className="me-1 has-text-secondary">Page</span>
-          <strong className="has-text-primary">
-            {pageIndex + 1} <span className="has-text-secondary">of</span> {pageOptions.length}
+          <span className="me-1 text-white">Page</span>
+          <strong className=" text-white">
+            {pageIndex + 1} <span className="text-white">of</span> {pageOptions.length}
           </strong>{' '}
         </span>
 
         <div className="mx-3 d-flex align-items-center">
-          <span className="me-2 has-text-secondary">Rows Per Page: </span>
-          <select className="form-control-sm has-text-secondary" id="rows-per-page" onChange={e => setPageSize(Number(e.target.value))}>
+          <span className="me-2 text-white">Rows Per Page: </span>
+          <select className="form-control-sm" id="rows-per-page" onChange={e => setPageSize(Number(e.target.value))}>
             {[10, 20, 30, 50].map(pageSize => (<option key={pageSize} value={pageSize}>
                 {pageSize}
               </option>))}

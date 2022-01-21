@@ -17,25 +17,25 @@ export const CryptoTableColumns = [
   {
     Header: "Name",
     accessor: "slug",
-    Cell: (cell: { value: string }) => <span className="text-capitalize ">{cell.value}</span>
+    Cell: (cell: { value: string }) => <span className="text-capitalize text-white">{cell.value}</span>
   },
   {
     Header: "Price",
     accessor: "metrics.market_data.price_usd",
-    Cell: (cell: { value: string }) => <span className="">{MoneyFormatterService.Format(cell.value)}</span>
+    Cell: (cell: { value: string }) => <span className="text-white">{MoneyFormatterService.Format(cell.value)}</span>
   },
   {
     id: "symbol_id",
     Header: "ID",
     accessor: "symbol",
-    Cell: (cell: { value: string }) => <span className="text-capitalize ">{cell.value}</span>,
+    Cell: (cell: { value: string }) => <span className="text-capitalize text-white">{cell.value}</span>,
     disableSortBy: true
   },
   {
     id: "Trade", Header: "", accessor: "", Cell: () => {
       return (
         <div className="dropdown">
-        <button className="btn dropdown-toggle btn-outline-secondary" type="button" id="dropdownMenuButton1"
+        <button className="btn dropdown-toggle btn-outline-secondary text-white" type="button" id="dropdownMenuButton1"
       data-bs-toggle="dropdown" aria-expanded="false">
         Trade
         </button>
@@ -58,10 +58,9 @@ export const CryptoTableColumns = [
   {
     id: 'expander', isExpanded: true, Cell: ({row}: { row: Row, toggleRowExpanded: () => void }) => {
       return <span
-        className="d-block w-3rem fn-size-2rem text-end has-hover-text-primary"
-      {...row.getToggleRowExpandedProps({})}>
-      {row.isExpanded ? <i className="fas fa-chevron-down d-block"/> :
-        <i className="fas fa-chevron-right d-block has-text-secondary"/>}
+        className="d-block w-3rem fn-size-2rem text-end "{...row.getToggleRowExpandedProps({})}>
+      {row.isExpanded ? <i className="fas fa-chevron-down d-block text-white has-hover-text-primary"/> :
+        <i className="fas fa-chevron-right d-block text-white has-hover-text-primary"/>}
       </span>
     }
   }

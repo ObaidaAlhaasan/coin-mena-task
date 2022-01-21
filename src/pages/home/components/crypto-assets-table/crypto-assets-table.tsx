@@ -21,8 +21,9 @@ const CryptoAssetsTable: FC = () => {
   if (status === "error") return <LoadingError title="Crypto Assets"/>;
 
   return (
-    <section className="crypto-assets-table row justify-content-center w-100">
-      <Col md={8} className="table-responsive">
+    <section className="crypto-assets-table row justify-content-center w-100 position-relative ">
+      <div className="trades-bg-image position-absolute"/>
+      <Col md={8} className="table-responsive has-glass-bg">
         <ReusableTable columns={columns}
                        data={data}
                        queryPageIndex={queryPageIndex}

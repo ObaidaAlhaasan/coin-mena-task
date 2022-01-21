@@ -18,7 +18,6 @@ export interface ICryptoAssetResponse {
 }
 
 
-
 interface ISrcSideBase {
   "time": Date,
   "asset": CryptoCurrency,
@@ -39,7 +38,11 @@ export enum CryptoCurrency {
 }
 
 export type strOrNum = string | number;
-export type exchangeSrc = "Crypto" | "Currency";
+
+export enum ExchangeSrc {
+  Crypto = "Crypto",
+  Currency = "Currency"
+}
 
 export interface IPaginateCryptoParam {
   queryPageIndex: number;

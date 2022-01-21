@@ -9,7 +9,7 @@ import FooterPrivacy from "./components/footer-privacy/footer-privacy";
 
 const Footer = () => {
   return (
-    <div className="footer bg-light pt-5 pb-2">
+    <div className="footer bg-light pt-5 pb-2 text-center text-md-start">
       <Container>
         <Row>
           <Col md={3}>
@@ -20,7 +20,7 @@ const Footer = () => {
             <div>
               <form onSubmit={e => e.preventDefault()}>
                 <input placeholder="Enter your email address"/>
-                <button><i className="fas fa-chevron-right"/></button>
+                <button><i className="fas fa-chevron-right has-hover-text-primary"/></button>
               </form>
             </div>
           </Col>

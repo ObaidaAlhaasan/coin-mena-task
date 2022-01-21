@@ -11,5 +11,6 @@ export const fetchCryptoRate = async (crypto: ICryptoAsset | undefined, currency
     console.log("crypto", crypto, "amt", currency);
     return Promise.reject("Invalid argument value");
   }
-  return await fetch(`${ExternalUrlsConstants.CryptoRate}/${crypto.symbol}/${currency}?apiKey=${'1CBD7F05-BE84-4227-959E-3207E1FEEBBE'}`).then(r => r.json());
+
+  return await fetch(`${ExternalUrlsConstants.CryptoRate}/${crypto.symbol}/${currency}?apiKey=${process.env.REACT_APP_API_KEY}`).then(r => r.json());
 }

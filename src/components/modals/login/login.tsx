@@ -40,7 +40,7 @@ const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
 
   return <ModalPortal>
     <div className={`modal ${show ? 'enter-done' : 'exit'}`} onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
+      <div className="modal-content has-text-secondary" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h4 className="modal-title">Login</h4>
           <span className="close" onClick={onClose}>

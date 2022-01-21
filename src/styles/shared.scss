@@ -1,5 +1,5 @@
 @import "variables";
-
+@import "mixins";
 .has-hover {
   cursor: pointer;
   transition: color ease 0.200ms;
@@ -43,4 +43,56 @@
 
 .w-2rem {
   width: 2rem;
+}
+
+.has-glass-bg {
+  width: 70vw;
+  @include respond(laptop){
+    width: 40vw;
+  }
+
+  height: 20rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  background: inherit;
+  overflow: hidden;
+  &:before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    margin: -20px;
+  }
+}
+
+.bg-image-base {
+  left: 0;
+  right: 0;
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  height: 100%;
+  width: 100%;
+  background-position: 100% 60%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.trade-form-bg-image {
+  @extend .bg-image-base;
+  background-image: url("../../public/assets/images/trade-bg.jpg");
+}
+
+.trades-bg-image {
+  @extend .bg-image-base;
+  filter: blur(25px);
+  background-image: url("../../public/assets/images/trades-bg.jpg");
+  background-attachment: fixed;
 }

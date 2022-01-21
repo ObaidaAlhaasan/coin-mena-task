@@ -16,7 +16,7 @@ const Header: FC = () => {
   const {currentUser, logout} = useStore();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top mb-5 container-fluid">
+    <nav className="navbar navbar-expand-lg navbar-light sticky-top container-fluid navbar-inner">
       <Logo/>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="/navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded={!!navbarExpand} aria-label="Toggle navigation"
@@ -26,11 +26,11 @@ const Header: FC = () => {
       </button>
 
       <div className={`collapse navbar-collapse ${navbarExpand}`} id="navbarSupportedContent">
-        <ul className="navbar-nav">
+        <ul className="navbar-nav has-text-secondary">
           <li className="nav-item active">
             <NavLink to={RoutesPathsConstants.Root} className={navLinkClassName}>Home</NavLink>
           </li>
-          <li className="nav-item">
+          <li className="nav-item ">
             <NavLink to={RoutesPathsConstants.Trade} className={navLinkClassName}>Trade</NavLink>
           </li>
         </ul>
@@ -41,12 +41,12 @@ const Header: FC = () => {
             {currentUser ?
               <UserInfo/>
               :
-              <span className="has-hover has-hover-affect has-text-primary has-hover-underline"
-                    onClick={() => setLoginIsOpen(true)}>Sign In</span>
+              <span className="has-hover has-hover-affect has-text-secondary has-hover-underline"
+                    onClick={() => setLoginIsOpen(true)}>Sign In <i className="fas fa-sign-in-alt"></i></span>
             }
           </li>
 
-          <li className="nav-item d-flex align-items-center">
+          <li className="nav-item d-flex align-items-center has-text-secondary">
             <span className="has-hover">
               {currentUser &&
                 <span onClick={logout} className="has-hover has-hover-affect">

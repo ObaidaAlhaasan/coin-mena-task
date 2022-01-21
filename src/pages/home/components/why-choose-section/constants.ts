@@ -10,32 +10,25 @@ export const chooseReasons = [
     iconPath: "/assets/svgs/why-choose/trust.svg",
     firstParg: "BEST USER EXPERIENCE",
     secondParg: "Easy & Simple to use interface",
-    description: "Navigate through our platform with ease. Your trading experience just got better with Tokenize" +
-      " Exchange’s" +
-      " easy & simple to use platform."
+    description: "Navigate through our platform with ease. Your trading experience just got better with Tokenize  Exchange’s easy & simple to use platform."
   },
   {
     iconPath: "/assets/svgs/why-choose/fiat-gateway.svg",
     firstParg: "FIAT GATEWAY",
     secondParg: "The bridge that connects fiat to cryptocurrencies",
-    description: "A trusted platform with intuitive UI/UX allowing users to connect fiat and cryptocurrencies" +
-      " conveniently."
+    description: "A trusted platform with intuitive UI/UX allowing users to connect fiat and cryptocurrencies  conveniently."
   },
   {
     iconPath: "/assets/svgs/why-choose/bonded-comunity.svg",
     firstParg: "BONDED COMMUNITY",
     secondParg: "Sharing of knowledge, ideas & values",
-    description: "Explore and discuss about the various blockchain innovations in our Token Store online. Workshops" +
-      " will" +
-      " also" +
-      " be conducted to educate new users."
+    description: "Explore and discuss about the various blockchain innovations in our Token Store online. Workshops  will also be conducted to educate new users."
   },
   {
     iconPath: "/assets/svgs/why-choose/variety.svg",
     firstParg: "VARIETY",
     secondParg: "All in 1 Platform",
-    description: "Get access to established & emerging cryptocurrencies with our platform. Tokenize Exchange supports" +
-      " fiat-crypto pairings, crypto-crypto pairings & ICO (IEO)."
+    description: "Get access to established & emerging cryptocurrencies with our platform. Coin Solar supports  fiat-crypto pairings, crypto-crypto pairings & ICO (IEO)."
   },
   {
     iconPath: "/assets/svgs/why-choose/protection.svg",

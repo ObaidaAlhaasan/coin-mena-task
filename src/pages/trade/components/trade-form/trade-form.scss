@@ -1,4 +1,16 @@
 @import "../../trade";
+@import "../../../../styles/mixins";
+
+.trade-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 78px;
+  @include respond(phone) {
+    padding: 78px 10px;
+  }
+}
 
 .crypto-form-separator {
   &--line {
@@ -15,6 +27,23 @@
     i {
       font-size: $default-font-size *3;
     }
+  }
+}
+
+.fa-sync {
+  transition: animation;
+}
+
+.has-loop {
+  animation: loop 0.5s ease-in infinite;
+}
+
+@keyframes loop {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
