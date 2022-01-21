@@ -15,36 +15,14 @@ const ReusableTable: FC<ITableProps> = (props) => {
   const {columns, data, queryPageIndex, queryPageSize, totalCount, setPageIndex, setPageItemsCount} = props;
 
   const {
-    headerGroups,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    pageOptions,
-    page,
-    state: {pageIndex, pageSize, expanded},
+    headerGroups, canPreviousPage, canNextPage, pageCount, pageOptions, page, state: {pageIndex, pageSize, expanded},
 
-    gotoPage,
-    getTableProps,
-    getTableBodyProps,
-    previousPage,
-    nextPage,
-    setPageSize,
-    prepareRow,
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        pageIndex: queryPageIndex,
-        pageSize: queryPageSize,
-      },
-      manualPagination: true,
-      pageCount: Math.ceil(totalCount / queryPageSize)
-    },
-    useSortBy,
-    useExpanded,
-    usePagination,
-  )
+    gotoPage, getTableProps, getTableBodyProps, previousPage, nextPage, setPageSize, prepareRow,
+  } = useTable({
+    columns, data, initialState: {
+      pageIndex: queryPageIndex, pageSize: queryPageSize,
+    }, manualPagination: true, pageCount: Math.ceil(totalCount / queryPageSize)
+  }, useSortBy, useExpanded, usePagination,)
 
   useEffect(() => {
     setPageItemsCount(pageSize);
@@ -54,52 +32,38 @@ const ReusableTable: FC<ITableProps> = (props) => {
     setPageIndex(pageIndex);
   }, [pageIndex]);
 
-  return (
-    <>
+  return (<>
       <table {...getTableProps()} className="table table-hover">
         <thead>
-        {headerGroups.map((headerGroup , i) => (
-          <tr  {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                <div className="d-flex align-items-center">
+        {headerGroups.map((headerGroup, i) => (<tr  {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (<th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <div className="d-flex align-items-center has-text-secondary">
                   <span>{column.render('Header')}</span>
                   <span className="d-inline-block mx-2 ">
-                  {column.isSorted ?
-                    column.isSortedDesc
-                      ? <i className="fas fa-angle-up has-text-primary "/>
-                      : <i className="fas fa-angle-down has-text-primary"/>
-                    :
-                    ''
-                  }
+                  {column.isSorted ? column.isSortedDesc ? <i className="fas fa-angle-up has-text-primary "/> :
+                    <i className="fas fa-angle-down has-text-primary"/> : ''}
               </span>
                 </div>
-              </th>
-            ))}
-          </tr>
-        ))}
+              </th>))}
+          </tr>))}
 
         </thead>
 
         <tbody {...getTableBodyProps()}>
         {page.map((row, i) => {
           prepareRow(row)
-          return (
-            <>
+          return (<>
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
               </tr>
-              {row.isExpanded &&
-                <tr>
-                  {row.cells.map((cell) => {
-                    return <td {...cell.getCellProps()}><p>Lorem ipsum dolor sit amet, consectetur.</p></td>
-                  })}
-                </tr>
-              }
-            </>
-          )
+              {row.isExpanded && <tr>
+                {row.cells.map((cell) => {
+                  return <td {...cell.getCellProps()}><p>Lorem ipsum dolor sit amet, consectetur.</p></td>
+                })}
+              </tr>}
+            </>)
         })}
         </tbody>
       </table>
@@ -130,26 +94,23 @@ const ReusableTable: FC<ITableProps> = (props) => {
           </div>
         </div>
         <span>
-          <span className="me-1">Page</span>
+          <span className="me-1 has-text-secondary">Page</span>
           <strong className="has-text-primary">
-            {pageIndex + 1} <span className="text-dark">of</span> {pageOptions.length}
+            {pageIndex + 1} <span className="has-text-secondary">of</span> {pageOptions.length}
           </strong>{' '}
         </span>
 
         <div className="mx-3 d-flex align-items-center">
-          <span className="me-2">Rows Per Page: </span>
-          <select className="form-control-sm" id="rows-per-page" onChange={e => setPageSize(Number(e.target.value))}>
-            {[10, 20, 30, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
+          <span className="me-2 has-text-secondary">Rows Per Page: </span>
+          <select className="form-control-sm has-text-secondary" id="rows-per-page" onChange={e => setPageSize(Number(e.target.value))}>
+            {[10, 20, 30, 50].map(pageSize => (<option key={pageSize} value={pageSize}>
                 {pageSize}
-              </option>
-            ))}
+              </option>))}
           </select>
         </div>
 
       </div>
-    </>
-  )
+    </>)
 }
 
 export default ReusableTable;
