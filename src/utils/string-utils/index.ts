@@ -1,8 +1,6 @@
 import {emailPattern, passwordPattern, textPattern} from "../regex";
 
-export const isNullOrEmpty = (str: string) => {
-  return str?.trim() === '' || str === null || str === undefined;
-}
+export const isNullOrEmpty = (str: string | number) =>  str?.toString()?.trim() === '' || str === null || str === undefined;
 
 export const parseUsernameFromEmail = (email: string) => {
   if (email?.indexOf("@") === -1)

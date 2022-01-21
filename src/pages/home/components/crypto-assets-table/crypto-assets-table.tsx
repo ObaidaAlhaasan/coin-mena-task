@@ -1,26 +1,20 @@
+import "./crypto-assets-table.scss";
 import React, {FC, useMemo, useState} from 'react';
-import {useQuery} from "react-query";
 import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 import LoadingError from "../../../../components/loading-error/loading-error";
-import "./crypto-assets-table.scss";
 import MoneyFormatterService from "../../../../services/money-formatter";
 import ReusableTable from "../../../../components/reusable-table/reusable-table";
 import ButtonDropdown from "../../../../components/drop-down/button-dropdown";
 import {Row} from "react-table";
 import Container from "../../../../components/container/container";
-import {fetchCryptos} from "../../../../services/api-service";
 import {CryptoIcon} from "../../../../components/crypto-icon/crypto-icon";
-import {ICryptoAssetResponse} from "../../../../types/cryptos";
+import {usePaginatedCryptoAssets} from "../../../../hooks/usePaginatedCryptoAssets";
 
 const CryptoAssetsTable: FC = () => {
   const [queryPageIndex, setPageIndex] = useState<number>(0);
   const [queryPageItemsCount, setPageItemsCount] = useState<number>(10);
 
-  const {
-    data: response,
-    status
-  } = useQuery<ICryptoAssetResponse>(["crypto-assets", queryPageIndex, queryPageItemsCount],
-    () => fetchCryptos(queryPageIndex + 1, queryPageItemsCount), {keepPreviousData: true});
+  const {data: response, status} = usePaginatedCryptoAssets({queryPageItemsCount, queryPageIndex})
   const data = response?.data ?? [];
 
   const columns = useMemo(
@@ -70,7 +64,7 @@ const CryptoAssetsTable: FC = () => {
       {
         id: 'expander',
         isExpanded: true,
-        Cell: ({row, toggleRowExpanded}: { row: Row, toggleRowExpanded: () => void }) => {
+        Cell: ({row}: { row: Row, toggleRowExpanded: () => void }) => {
           return <span
             className="d-block w-3rem fn-size-2rem text-end has-hover-text-primary"
             {...row.getToggleRowExpandedProps({})}>

@@ -17,21 +17,31 @@ export interface ICryptoAssetResponse {
   };
 }
 
-export interface ICryptoToCurrencyResponse {
-  "motd": {
-    "msg": string,
-    "url": string
-  },
-  "success": boolean,
-  "query": {
-    "from": string,
-    "to": string,
-    "amount": number
-  },
-  "info": {
-    "rate": number
-  },
-  "historical": boolean,
-  "date": Date,
-  "result": number;
+
+
+interface ISrcSideBase {
+  "time": Date,
+  "asset": CryptoCurrency,
+  "rate": number,
+}
+
+export interface ICryptoRateResponse {
+  "time": Date,
+  "asset_id_base": string,
+  "asset_id_quote": CryptoCurrency,
+  "rate": number,
+  "src_side_base": ISrcSideBase[]
+}
+
+export enum CryptoCurrency {
+  USD = "USD",
+  EUR = "EUR"
+}
+
+export type strOrNum = string | number;
+export type exchangeSrc = "Crypto" | "Currency";
+
+export interface IPaginateCryptoParam {
+  queryPageIndex: number;
+  queryPageItemsCount: number
 }

@@ -1,106 +1,70 @@
-import React, {ChangeEvent, FC, useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, FC, useCallback, useEffect, useState} from 'react';
 import "./trade-form.scss";
-import {useQuery} from "react-query";
-import {fetchCryptoToCurrency, fetchCryptos, fetchCurrencyToCrypto} from "../../../../services/api-service";
 import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 import LoadingError from "../../../../components/loading-error/loading-error";
 import {CryptoIcon} from "../../../../components/crypto-icon/crypto-icon";
-import {ICryptoAsset, ICryptoAssetResponse, ICryptoToCurrencyResponse} from "../../../../types/cryptos";
+import {
+  CryptoCurrency, exchangeSrc,
+  ICryptoAsset, strOrNum,
+} from "../../../../types/cryptos";
 import {Dropdown} from "../../../../components/drop-down/drop-down";
+import {useDebounce} from "../../../../hooks/useDebounce";
+import {useCryptoAssets} from "../../../../hooks/useCryptoAssets";
+import {useRate} from "../../../../hooks/useRate";
+import {isNullOrEmpty} from "../../../../utils/string-utils";
 
-const useCryptoToCurrency = (crypto: ICryptoAsset | undefined, cryptoAmt: string) => {
-  console.log(crypto?.symbol, cryptoAmt);
 
-  return useQuery<ICryptoToCurrencyResponse>(["crypto-to-currency", crypto, cryptoAmt], () => fetchCryptoToCurrency(crypto, cryptoAmt), {
-    enabled: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchInterval: 1
-  })
-}
-
-const useCurrencyToCrypto = (crypto: ICryptoAsset | undefined, currency: string) => {
-  return useQuery<ICryptoToCurrencyResponse>(["currency-to-crypto", crypto, currency], () => fetchCurrencyToCrypto(crypto, currency), {
-    enabled: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchInterval: 1
-  });
-}
-
-const useCryptoAssets = () => {
-  return useQuery<ICryptoAssetResponse>(["crypto-assets"], () => fetchCryptos(1, 200), {
-    keepPreviousData: true,
-    refetchOnMount: false,
-  })
-}
-
-export function useDebounce<T>(value: T, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(
-    () => {
-      const handler = setTimeout(() => {
-        setDebouncedValue(value);
-      }, delay);
-
-      return () => {
-        clearTimeout(handler);
-      };
-    },
-    [value, delay]
-  );
-
-  return debouncedValue;
-}
-
+const DelayEventInMilliSecond = 500;
 const TradeForm: FC = () => {
   const [crypto, setCrypto] = useState<ICryptoAsset>();
-  const [cryptoAmt, setCryptoAmt] = useState<string>('');
-  const debouncedCryptoAmt = useDebounce<string>(cryptoAmt, 500);
+  const [cryptoAmt, setCryptoAmt] = useState<strOrNum>('');
+  const [currency, setCurrency] = useState<strOrNum>('');
+  const [exchangeSrc, setExchangeSrc] = useState<exchangeSrc>('Crypto');
 
-  const [currency, setCurrency] = useState<string>('');
-  const debouncedCurrency = useDebounce<string>(currency, 500);
+  const debouncedCurrency = useDebounce<strOrNum>(currency, DelayEventInMilliSecond);
+  const debouncedCryptoAmt = useDebounce<strOrNum>(cryptoAmt, DelayEventInMilliSecond);
 
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
 
   const {data: response, status} = useCryptoAssets();
   const cryptos = response?.data ?? [];
 
-  const {refetch: refetchCryptoToCurrency} = useCryptoToCurrency(crypto, debouncedCryptoAmt);
-
-  const {refetch: refetchCurrencyToCrypto} = useCurrencyToCrypto(crypto, debouncedCurrency);
-
-  const prefDebouncedRef = useRef({debouncedCurrency, debouncedCryptoAmt});
+  const {refetch: refetchCryptoRate} = useRate(crypto, CryptoCurrency.USD);
 
   useEffect(() => {
     setCrypto(cryptos[0]);
   }, [cryptos]);
 
+  const fetchCryptoRate = useCallback(()=> {
+    refetchCryptoRate().then(({data, status}) => {
+      if(status !== "success" || !data?.rate) return;
+
+      const value = (Number(debouncedCryptoAmt) * data?.rate) ?? '';
+      setCurrency(value);
+    })
+  }, [debouncedCryptoAmt])
+
+  const fetchCurrencyRate = useCallback(()=> {
+    refetchCryptoRate().then(({data, status}) => {
+      if(status !== "success" || !data?.rate) return;
+
+      const value = (Number(currency) / data?.rate) ?? '';
+      setCryptoAmt(value);
+    })
+  }, [debouncedCryptoAmt])
 
   useEffect(() => {
-    if (prefDebouncedRef.current.debouncedCryptoAmt !== debouncedCryptoAmt) {
-      refetchCryptoToCurrency().then(({data, status}) => {
-        if (status === "success") {
-          const value = data?.result.toString() ?? '';
-          setCurrency(value);
-          prefDebouncedRef.current.debouncedCurrency = value;
-        }
-      })
-    }
-  }, [debouncedCryptoAmt]);
+    if (exchangeSrc === "Currency" || isNullOrEmpty(debouncedCryptoAmt))
+      return;
+    fetchCryptoRate()
+  }, [debouncedCryptoAmt, exchangeSrc]);
 
   useEffect(() => {
-    if (prefDebouncedRef.current.debouncedCurrency !== debouncedCurrency) {
-      refetchCurrencyToCrypto().then(({data, status}) => {
-        if (status === "success") {
-          const value = data?.result?.toString() ?? '';
-          setCryptoAmt(value);
-          prefDebouncedRef.current.debouncedCryptoAmt = value;
-        }
-      });
-    }
-  }, [debouncedCurrency]);
+    if (exchangeSrc === "Crypto" || isNullOrEmpty(debouncedCurrency))
+      return;
+
+    fetchCurrencyRate();
+  }, [debouncedCurrency, exchangeSrc]);
 
   if (status === "loading")
     return <LoadingSpinner/>
@@ -115,22 +79,23 @@ const TradeForm: FC = () => {
   const onSelectCrypto = (d: ICryptoAsset) => {
     setIsDropDownOpen(!isDropDownOpen);
     setCrypto(d);
+    setExchangeSrc('Crypto')
   }
 
   const onChangeAmtChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setCryptoAmt(e.target.value);
-    setCurrency('');
+    setExchangeSrc('Crypto');
   }
 
   const onCurrencyChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setCurrency(e.target.value);
-    setCryptoAmt('');
+    setExchangeSrc('Currency');
   }
 
   return (
     <div className="trade-from">
       <div className="input-group input-group-prepend show">
-        <input type="text" className="form-control" aria-label="Text input with dropdown button"
+        <input type="number" className="form-control" aria-label="Text input with dropdown button"
                onChange={onChangeAmtChange}
                value={cryptoAmt}
         />
