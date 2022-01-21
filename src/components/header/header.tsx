@@ -17,7 +17,7 @@ const Header: FC = () => {
   const {currentUser, logout} = useStore();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-md-top mb-5">
       <Logo/>
 
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
