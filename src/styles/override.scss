@@ -20,10 +20,14 @@ a:hover, a:focus, a:active {
   box-shadow: none;
 }
 
-.btn.active.focus, .btn.active:focus, .btn.focus,
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
 .btn:active.focus,
 .btn:active:focus,
 .btn:focus,
+.navbar-toggler,
+.navbar-toggler:focus,
 button.active.focus,
 button.active:focus,
 button.focus,
@@ -54,4 +58,25 @@ button:focus,
   &:active:focus {
     box-shadow: 0 0 0 0.1rem darken($btn-primary-background, 5%);
   }
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: transparent;
+}
+
+.dropdown-menu.small {
+  min-width: 7rem;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

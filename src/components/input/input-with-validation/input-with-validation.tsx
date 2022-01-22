@@ -45,15 +45,12 @@ export const InputWithValidation: FC<IInputWithValidation> = (props) => {
   }
 
   useEffect(() => {
-
     return function cleanup() {
       setInput({value: '', validationMsg: null, isValid: null});
     }
   }, []);
 
   useEffect(() => {
-    console.log(input);
-
     onValidate(input.value);
     props.onAfterChange(input);
   }, [input.value])
@@ -68,7 +65,7 @@ export const InputWithValidation: FC<IInputWithValidation> = (props) => {
              onChange={e => setInput({...input, value: e.target.value})}
              autoComplete="false"
       />
-      {props.input.value && (!props.input.isValid && <span className="alert-danger">{props.input.validationMsg}</span>)}
+      {props.input.value && (!props.input.isValid && <span className="invalid-feedback">{props.input.validationMsg}</span>)}
     </>
   );
 };

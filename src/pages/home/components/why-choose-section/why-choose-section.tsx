@@ -9,8 +9,8 @@ import Container from "../../../../components/container/container";
 
 const WhyChooseSection: FC = () => {
   return (
-    <Container>
-      <section className="why-choose">
+    <section className="why-choose">
+      <Container>
         <Row>
           <Col md={12}>
             <p className="has-text-primary why-choose__paragraph">SECURITY. VARIETY. TRUST.</p>
@@ -26,8 +26,8 @@ const WhyChooseSection: FC = () => {
             </Row>
           </Col>
         </Row>
-      </section>
-    </Container>
+      </Container>
+    </section>
   );
 };
 

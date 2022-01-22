@@ -5,7 +5,7 @@ interface IFooterItem {
 
 export const FooterItems: IFooterItem[] = [
   {
-    label: 'TOKENIZE EXCHANGE',
+    label: 'Coin Solar',
     items: ['Markets', 'Token Store', 'OTC']
   },
   {

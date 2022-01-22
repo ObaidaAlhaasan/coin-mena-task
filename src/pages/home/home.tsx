@@ -8,11 +8,11 @@ interface IHomeProps {
 
 const Home: FC<IHomeProps> = () => {
   return (
-    <div>
+    <>
       <CryptoAssetsTable/>
       <WhyChooseSection />
       <GetStart/>
-    </div>
+    </>
   );
 };
 

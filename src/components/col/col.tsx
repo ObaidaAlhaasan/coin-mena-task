@@ -1,15 +1,16 @@
 import React, {FC} from 'react';
+import {strOrNum} from "../../types/cryptos";
 
 interface IColProps {
-  md?: number | string;
-  sm?: number | string;
-  lg?: number | string;
+  md?: strOrNum;
+  sm?: strOrNum;
+  lg?: strOrNum;
   className?: string;
 }
 
 const Col: FC<IColProps> = ({lg, md, className, children}) => {
   return (
-    <div className={`col-md-${md} ${className ?? ''}`}>
+    <div className={`col-sm-12 col-md-${md ?? ''} ${lg ? `col-lg-${lg}` : ''} ${className ?? ''}`}>
       {children}
     </div>
   );
