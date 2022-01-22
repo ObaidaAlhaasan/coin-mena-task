@@ -48,3 +48,8 @@ export interface IPaginateCryptoParam {
   queryPageIndex: number;
   queryPageItemsCount: number
 }
+
+export enum ResponseStatus {
+  Error = "error",
+  Loading = "loading",
+}

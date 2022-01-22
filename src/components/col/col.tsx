@@ -9,7 +9,6 @@ interface IColProps {
 }
 
 const Col: FC<IColProps> = ({lg, md, className, children}) => {
-  console.log(lg)
   return (
     <div className={`col-sm-12 col-md-${md ?? ''} ${lg ? `col-lg-${lg}` : ''} ${className ?? ''}`}>
       {children}

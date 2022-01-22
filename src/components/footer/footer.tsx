@@ -26,17 +26,17 @@ const Footer = () => {
           </Col>
           {FooterItems.map((footerItem, i) => (
             <Col key={i} md={3}>
-              <ul className="list-group list-unstyled">
+              <ul className="list-group list-unstyled my-3">
                 <h4>{footerItem.label}</h4>
                 {footerItem.items.map((item, ind) => (
-                  <li className="list-item has-hover-affect has-hover w-fit-content" key={ind}>{item}</li>))}
+                  <li className="list-item has-hover-affect has-hover w-fit-content text-sm-center m-auto m-md-0" key={ind}><span>{item}</span></li>))}
               </ul>
             </Col>
           ))}
           <Col md={3}>
-            <ul className="list-group list-unstyled">
+            <ul className="list-group list-unstyled my-3">
               <li><h4>LET'S TALK</h4></li>
-              <li className="list-item-social">
+              <li className="list-item-social  m-auto m-md-0">
                 {SocialLinks.map((s, i) => <i key={i} className={`fab fa-${s.name} mx-2 has-hover has-hover-affect`}/>)}
               </li>
             </ul>

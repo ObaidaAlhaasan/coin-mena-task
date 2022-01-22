@@ -6,6 +6,7 @@ import ReusableTable from "../../../../components/reusable-table/reusable-table"
 import {usePaginatedCryptoAssets} from "../../../../hooks/usePaginatedCryptoAssets";
 import Col from "../../../../components/col/col";
 import {CryptoTableColumns} from "./crypto-table-columns";
+import {ResponseStatus} from "../../../../types/cryptos";
 
 const CryptoAssetsTable: FC = () => {
   const [queryPageIndex, setPageIndex] = useState<number>(0);
@@ -16,9 +17,11 @@ const CryptoAssetsTable: FC = () => {
 
   const columns = useMemo(() => CryptoTableColumns, []);
 
-  if (status === "loading") return <LoadingSpinner/>
+  if (status === ResponseStatus.Loading)
+    return <LoadingSpinner/>
 
-  if (status === "error") return <LoadingError title="Crypto Assets"/>;
+  if (status === ResponseStatus.Error)
+    return <LoadingError title="Crypto Assets"/>;
 
   return (
     <section className="crypto-assets-table row justify-content-center w-100 position-relative ">

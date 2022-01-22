@@ -1,9 +1,9 @@
-import React, {ChangeEvent, FC, useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, useCallback, useEffect, useMemo, useState} from 'react';
 import "./trade-form.scss";
 import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 import LoadingError from "../../../../components/loading-error/loading-error";
 import {CryptoIcon} from "../../../../components/crypto-icon/crypto-icon";
-import {CryptoCurrency, ExchangeSrc, ICryptoAsset, strOrNum,} from "../../../../types/cryptos";
+import {CryptoCurrency, ExchangeSrc, ICryptoAsset, ResponseStatus, strOrNum,} from "../../../../types/cryptos";
 import {useDebounce} from "../../../../hooks/useDebounce";
 import {useCryptoAssets} from "../../../../hooks/useCryptoAssets";
 import {useRate} from "../../../../hooks/useRate";
@@ -20,12 +20,17 @@ const TradeForm: FC = () => {
   const debouncedCurrency = useDebounce<strOrNum>(currency, DelayEventInMilliSecond);
   const debouncedCryptoAmt = useDebounce<strOrNum>(cryptoAmt, DelayEventInMilliSecond);
 
-  const {data: response, status} = useCryptoAssets();
-  const cryptos = response?.data ?? [];
+  const {data: response, status: fetchCryptoStatus} = useCryptoAssets();
+  const cryptos = useMemo(() => response?.data ?? [], [response?.data]);
 
-  const {refetch: refetchCryptoRate, status: fetchRateStatus} = useRate(crypto, CryptoCurrency.USD);
+  const {
+    refetch: refetchCryptoRate,
+    status: fetchRateStatus,
+    error
+  } = useRate(crypto, CryptoCurrency.USD);
+  const fetchRateErrMsg = error as string;
 
-  const {currentUser} = useStore();
+  const {currentUser, userSignedOut} = useStore();
 
   useEffect(() => {
     setCrypto(cryptos[0]);
@@ -62,15 +67,27 @@ const TradeForm: FC = () => {
     fetchCurrencyRate();
   }, [debouncedCurrency, exchangeSrc]);
 
-  if (status === "loading")
+
+  useEffect(() => {
+    if (userSignedOut)
+      resetState();
+  }, [userSignedOut]);
+
+  if (fetchCryptoStatus === ResponseStatus.Loading)
     return <LoadingSpinner/>
 
-  if (status === "error")
+  if (fetchCryptoStatus === ResponseStatus.Error)
     return <LoadingError title="Crypto Assets"/>
+
+  const resetState = () => {
+    setCryptoAmt('');
+    setCurrency('');
+    setExchangeSrc(ExchangeSrc.Crypto);
+  }
 
   const onSelectCrypto = (d: ICryptoAsset) => {
     setCrypto(d);
-    setExchangeSrc(ExchangeSrc.Crypto)
+    resetState();
   }
 
   const onChangeAmtChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +102,8 @@ const TradeForm: FC = () => {
 
   return (
     <div className="trade-form has-glass-bg">
-      {!currentUser && <h5 className="text-white">Please <span className="has-text-primary">Login</span> to use Trade form</h5>}
+      {!currentUser &&
+        <h5 className="text-white">Please <span className="has-text-primary">Login</span> to use Trade form</h5>}
       <div className="input-group input-group-prepend">
         <input placeholder="0.00" type="number" className="form-control" aria-label="Text input with dropdown button"
                onChange={onChangeAmtChange}
@@ -93,7 +111,6 @@ const TradeForm: FC = () => {
                disabled={!currentUser}
         />
         <div className="input-group-append">
-
           <div className="dropdown">
             <button className="btn btn-sm dropdown-toggle btn-outline-secondary has-text-primary" type="button"
                     id="dropdownMenuButton1"
@@ -138,7 +155,7 @@ const TradeForm: FC = () => {
                disabled={!currentUser}
         />
       </div>
-
+      {fetchRateErrMsg && <p className="invalid-feedback d-block">{fetchRateErrMsg}</p>}
     </div>
   );
 };

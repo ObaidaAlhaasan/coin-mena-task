@@ -7,5 +7,6 @@ export const useRate = (crypto: ICryptoAsset | undefined, currency: CryptoCurren
     enabled: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    retry: 1,
   });
 }

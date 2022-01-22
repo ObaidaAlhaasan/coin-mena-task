@@ -1,5 +1,6 @@
 @import "variables";
 @import "mixins";
+
 .has-hover {
   cursor: pointer;
   transition: color ease 0.200ms;
@@ -47,7 +48,7 @@
 
 .has-glass-bg {
   width: 70vw;
-  @include respond(laptop){
+  @include respond(laptop) {
     width: 40vw;
   }
 
@@ -58,6 +59,7 @@
   z-index: 1;
   background: inherit;
   overflow: hidden;
+
   &:before {
     content: "";
     position: absolute;
@@ -87,12 +89,12 @@
 
 .trade-form-bg-image {
   @extend .bg-image-base;
-  background-image: url("../../public/assets/images/trade-bg.jpg");
+  background-image: url("../../public/assets/images/trade-form-bg.jpg");
 }
 
 .trades-bg-image {
   @extend .bg-image-base;
   filter: blur(25px);
-  background-image: url("../../public/assets/images/trades-bg.jpg");
+  background-image: url("../../public/assets/images/assets-table-bg.jpg");
   background-attachment: fixed;
 }

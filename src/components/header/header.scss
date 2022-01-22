@@ -29,6 +29,15 @@ a {
   border-radius: 50%;
 }
 
-.collapse.navbar-collapse.show .nav-item {
-  padding: 0.6rem 0;
+.collapse {
+  &.navbar-collapse {
+    transition: color ease 0.25s;
+
+    &.show {
+      .nav-item {
+        padding: 0.6rem 0;
+      }
+    }
+  }
 }
+

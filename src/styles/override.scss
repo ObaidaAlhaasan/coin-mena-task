@@ -20,10 +20,14 @@ a:hover, a:focus, a:active {
   box-shadow: none;
 }
 
-.btn.active.focus, .btn.active:focus, .btn.focus,
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
 .btn:active.focus,
 .btn:active:focus,
 .btn:focus,
+.navbar-toggler,
+.navbar-toggler:focus,
 button.active.focus,
 button.active:focus,
 button.focus,

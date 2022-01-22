@@ -9,25 +9,23 @@ import Container from "../../../../components/container/container";
 
 const WhyChooseSection: FC = () => {
   return (
-    <section>
+    <section className="why-choose">
       <Container>
-        <section className="why-choose">
-          <Row>
-            <Col md={12}>
-              <p className="has-text-primary why-choose__paragraph">SECURITY. VARIETY. TRUST.</p>
-            </Col>
+        <Row>
+          <Col md={12}>
+            <p className="has-text-primary why-choose__paragraph">SECURITY. VARIETY. TRUST.</p>
+          </Col>
 
-            <Col md={12}>
-              <h1 className="why-choose__main-title">Why choose Coin Sorla?</h1>
-            </Col>
+          <Col md={12}>
+            <h1 className="why-choose__main-title">Why choose Coin Sorla?</h1>
+          </Col>
 
-            <Col md={12}>
-              <Row>
-                {chooseReasons.map((r, i) => <Reason key={i} reason={r}/>)}
-              </Row>
-            </Col>
-          </Row>
-        </section>
+          <Col md={12}>
+            <Row>
+              {chooseReasons.map((r, i) => <Reason key={i} reason={r}/>)}
+            </Row>
+          </Col>
+        </Row>
       </Container>
     </section>
   );
