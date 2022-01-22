@@ -53,7 +53,7 @@ const TradeForm: FC = () => {
   } = useRate(crypto, CryptoCurrency.USD);
   const fetchRateErrMsg = error as string;
 
-  const { currentUser, userSignedOut } = useStore();
+  const { currentUser } = useStore();
 
   useEffect(() => {
     setCrypto(cryptos[0]);
@@ -92,10 +92,6 @@ const TradeForm: FC = () => {
 
     fetchCurrencyRate();
   }, [debouncedCurrency, exchangeSrc]);
-
-  useEffect(() => {
-    if (userSignedOut) resetState();
-  }, [userSignedOut]);
 
   if (fetchCryptoStatus === ResponseStatus.Loading) return <LoadingSpinner />;
 
@@ -218,7 +214,7 @@ const TradeForm: FC = () => {
           disabled={!currentUser}
         />
       </div>
-      {fetchRateErrMsg && (
+      {currentUser && fetchRateErrMsg && (
         <p className="invalid-feedback d-block">{fetchRateErrMsg}</p>
       )}
     </div>
