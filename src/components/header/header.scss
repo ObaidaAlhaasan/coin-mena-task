@@ -1,41 +1,46 @@
 @import "src/styles/variables";
 
-.navbar-inner {
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .3);
-}
 
-.nav-item {
-  margin: 0 1em;
-}
-
-.nav-link-active {
-  color: $primary-color;
-  font-weight: 600;
-  border-bottom: 3px solid;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-
-  &:hover {
-    color: lighten($primary-color, 1);
+.navbar {
+  &.navbar-inner {
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .3);
   }
-}
 
-.user-profile-pic {
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-}
+  .nav-item {
+    margin: 0 1em;
+  }
 
-.collapse {
-  &.navbar-collapse {
-    transition: color ease 0.25s;
+  li {
+    .nav-link-active {
+      color: $primary-color;
+      font-weight: 600;
+      border-bottom: 3px solid;
+    }
+  }
 
-    &.show {
-      .nav-item {
-        padding: 0.6rem 0;
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: lighten($primary-color, 1);
+    }
+  }
+
+  .user-profile-pic {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+  }
+
+  .collapse {
+    &.navbar-collapse {
+      transition: color ease 0.25s;
+
+      &.show {
+        .nav-item {
+          padding: 0.6rem 0;
+        }
       }
     }
   }
