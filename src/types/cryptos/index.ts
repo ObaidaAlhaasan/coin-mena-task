@@ -17,39 +17,39 @@ export interface ICryptoAssetResponse {
   };
 }
 
-
 interface ISrcSideBase {
-  "time": Date,
-  "asset": CryptoCurrency,
-  "rate": number,
+  time: Date;
+  asset: CryptoCurrency;
+  rate: number;
 }
 
 export interface ICryptoRateResponse {
-  "time": Date,
-  "asset_id_base": string,
-  "asset_id_quote": CryptoCurrency,
-  "rate": number,
-  "src_side_base": ISrcSideBase[]
+  time: Date;
+  asset_id_base: string;
+  asset_id_quote: CryptoCurrency;
+  rate: number;
+  src_side_base: ISrcSideBase[];
 }
 
 export enum CryptoCurrency {
   USD = "USD",
-  EUR = "EUR"
+  EUR = "EUR",
 }
 
 export type strOrNum = string | number;
 
 export enum ExchangeSrc {
   Crypto = "Crypto",
-  Currency = "Currency"
+  Currency = "Currency",
 }
 
 export interface IPaginateCryptoParam {
   queryPageIndex: number;
-  queryPageItemsCount: number
+  queryPageItemsCount: number;
 }
 
 export enum ResponseStatus {
   Error = "error",
   Loading = "loading",
+  Success = "success",
 }

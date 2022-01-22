@@ -26,7 +26,7 @@ import {
 } from "../../../../utils/string-utils";
 import { useStore } from "../../../../store/store";
 
-const DelayEventInMilliSecond = 500;
+const DelayEventInMilliSecond = 250;
 const TradeForm: FC = () => {
   const [crypto, setCrypto] = useState<ICryptoAsset>();
   const [cryptoAmt, setCryptoAmt] = useState<strOrNum>("");
@@ -61,21 +61,20 @@ const TradeForm: FC = () => {
 
   const fetchCryptoRate = useCallback(() => {
     refetchCryptoRate().then(({ data, status }) => {
-      if (status !== "success" || !data?.rate) return;
-
-      const value = Number(debouncedCryptoAmt) * data?.rate ?? "";
+      if (status !== ResponseStatus.Success || !data?.rate) return;
+      const value = Number(cryptoAmt) * data?.rate ?? "";
       setCurrency(value);
     });
-  }, [debouncedCryptoAmt]);
+  }, [cryptoAmt]);
 
   const fetchCurrencyRate = useCallback(() => {
     refetchCryptoRate().then(({ data, status }) => {
-      if (status !== "success" || !data?.rate) return;
+      if (status !== ResponseStatus.Success || !data?.rate) return;
 
       const value = Number(currency) / data?.rate ?? "";
       setCryptoAmt(value);
     });
-  }, [debouncedCryptoAmt]);
+  }, [currency]);
 
   useEffect(() => {
     if (
@@ -83,6 +82,7 @@ const TradeForm: FC = () => {
       isNullOrEmpty(debouncedCryptoAmt)
     )
       return;
+
     fetchCryptoRate();
   }, [debouncedCryptoAmt, exchangeSrc]);
 
@@ -103,11 +103,16 @@ const TradeForm: FC = () => {
     return <LoadingError title="Crypto Assets" />;
 
   const resetState = () => {
-    if (isNotNullOrEmpty(cryptoAmt)) setCryptoAmt("");
+    try {
+      if (isNotNullOrEmpty(cryptoAmt)) setCryptoAmt("");
 
-    if (isNotNullOrEmpty(currency)) setCurrency("");
+      if (isNotNullOrEmpty(currency)) setCurrency("");
 
-    if (exchangeSrc !== ExchangeSrc.Crypto) setExchangeSrc(ExchangeSrc.Crypto);
+      if (exchangeSrc !== ExchangeSrc.Crypto)
+        setExchangeSrc(ExchangeSrc.Crypto);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const onSelectCrypto = (d: ICryptoAsset) => {
@@ -115,13 +120,23 @@ const TradeForm: FC = () => {
     resetState();
   };
 
-  const onChangeAmtChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setCryptoAmt(e.target.value);
+  const onCryptoAmtChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (isNullOrEmpty(value)) {
+      setCurrency("");
+    }
+
+    setCryptoAmt(value);
     setExchangeSrc(ExchangeSrc.Crypto);
   };
 
   const onCurrencyChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrency(e.target.value);
+    const value = e.target.value;
+    if (isNullOrEmpty(value)) {
+      setCryptoAmt("");
+    }
+
+    setCurrency(value);
     setExchangeSrc(ExchangeSrc.Currency);
   };
 
@@ -139,7 +154,7 @@ const TradeForm: FC = () => {
           type="number"
           className="form-control"
           aria-label="Text input with dropdown button"
-          onChange={onChangeAmtChange}
+          onChange={onCryptoAmtChange}
           value={cryptoAmt}
           disabled={!currentUser}
         />

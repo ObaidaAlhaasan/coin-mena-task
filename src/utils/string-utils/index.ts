@@ -1,7 +1,7 @@
 import { emailPattern, passwordPattern, usernamePattern } from "../regex";
 
 export const isNullOrEmpty = (str: string | number) =>
-  str?.toString()?.trim() === "" || str === null || str === undefined;
+  str === null || str === undefined || str?.toString()?.trim() === "";
 export const isNotNullOrEmpty = (str: string | number) => !isNullOrEmpty(str);
 export const isNullOrUndefined = (obj: any) =>
   obj === null || obj === undefined;
