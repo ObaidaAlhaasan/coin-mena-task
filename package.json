@@ -58,6 +58,7 @@
     "sass": "^1.48.0"
   },
   "lint-staged": {
-    "*.{js,css,md,ts,tsx}": "prettier --write --ignore-unknown"
+    "*.{js,css,md,ts,tsx}": "prettier --write --ignore-unknown",
+    "*.{js,css,md}": "prettier --write"
   }
 }
