@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./header.scss";
 
-import RoutesPathsConstants from "../../navigation/routes-paths-constants";
+import RoutesPathsConstants from "../../routes/routes-paths-constants";
 import LoginModal from "../modals/login/login";
 import { useStore } from "../../store/store";
 import Logo from "../logo/logo";

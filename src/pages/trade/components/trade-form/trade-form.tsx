@@ -153,7 +153,7 @@ const TradeForm: FC = () => {
           placeholder="0.00"
           type="number"
           className="form-control"
-          aria-label="Text input with dropdown button"
+          aria-label="Crypto Amount"
           onChange={onCryptoAmtChange}
           value={cryptoAmt}
           disabled={!currentUser}
@@ -163,17 +163,18 @@ const TradeForm: FC = () => {
             <button
               className="btn btn-sm dropdown-toggle btn-outline-secondary has-text-primary"
               type="button"
-              id="dropdownMenuButton1"
+              id="dropdownMenuButton"
               data-bs-toggle="dropdown"
               aria-expanded="false"
               disabled={!currentUser}
+              data-testid="btn-test"
             >
               <CryptoIcon iconName={crypto?.symbol ?? ""} />
               <span>{crypto?.symbol ?? ""}</span>
             </button>
             <ul
               className="dropdown-menu small overflow-auto"
-              aria-labelledby="dropdownMenuButton1"
+              aria-labelledby="dropdownMenuButton"
             >
               {cryptos.map((c: ICryptoAsset, i) => (
                 <li key={i}>
@@ -211,7 +212,7 @@ const TradeForm: FC = () => {
           placeholder="0.00"
           type="number"
           className="form-control"
-          aria-label="Amount (to the nearest dollar)"
+          aria-label="Crypto In currency USD"
           value={currency}
           onChange={onCurrencyChange}
           disabled={!currentUser}

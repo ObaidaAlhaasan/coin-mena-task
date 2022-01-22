@@ -3,8 +3,8 @@ import { emailPattern, passwordPattern, usernamePattern } from "../regex";
 export const isNullOrEmpty = (str: string | number) =>
   str === null || str === undefined || str?.toString()?.trim() === "";
 export const isNotNullOrEmpty = (str: string | number) => !isNullOrEmpty(str);
-export const isNullOrUndefined = (obj: any) =>
-  obj === null || obj === undefined;
+export const isNullOrUndefined = <T>(value: T) =>
+  value === null || value === undefined;
 
 export const parseUsernameFromEmail = (email: string) => {
   if (email?.indexOf("@") === -1) return "unknown";

@@ -5,7 +5,6 @@ import {
   InputWithValidation,
   validationInput,
 } from "../../input/input-with-validation/input-with-validation";
-import ModalPortal from "../../modal-portal/modal-portal";
 
 interface ILoginProps {
   onClose?: () => void;
