@@ -1,15 +1,14 @@
 import create from "zustand";
-import {ILoggedInUser} from "../types/user/user";
-import useAuth from "./auth-provider";
+import { ILoggedInUser } from "../types/user/user";
+import useAuth from "../hooks/useAuth";
 
-interface IAppState {
+export interface IAppState {
   currentUser: ILoggedInUser | null;
-  userSignedOut: boolean,
+  userSignedOut: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   checkAlreadyLoggedIn: () => void;
 }
-
 
 export const useStore = create<IAppState>((set) => ({
   currentUser: null,
@@ -17,30 +16,29 @@ export const useStore = create<IAppState>((set) => ({
   login: async (email: string, password: string) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const user = await useAuth(email, password);
-    if (!user)
-      return;
+    if (!user) return;
     set(() => ({
-      currentUser: {...user},
-      userSignedOut: false
+      currentUser: { ...user },
+      userSignedOut: false,
     }));
 
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem("currentUser", JSON.stringify(user));
   },
   logout: () => {
     set(() => ({
       currentUser: null,
-      userSignedOut: true
+      userSignedOut: true,
     }));
 
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem("currentUser");
   },
   checkAlreadyLoggedIn: () => {
-    const currentUserStr = localStorage.getItem('currentUser');
+    const currentUserStr = localStorage.getItem("currentUser");
     if (currentUserStr) {
       const user = JSON.parse(currentUserStr);
       set(() => ({
-        currentUser: {...user}
+        currentUser: { ...user },
       }));
     }
-  }
+  },
 }));

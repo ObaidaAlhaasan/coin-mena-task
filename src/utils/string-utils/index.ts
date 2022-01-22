@@ -1,18 +1,19 @@
-import {emailPattern, passwordPattern, textPattern} from "../regex";
+import { emailPattern, passwordPattern, usernamePattern } from "../regex";
 
-export const isNullOrEmpty = (str: string | number) => str?.toString()?.trim() === '' || str === null || str === undefined;
+export const isNullOrEmpty = (str: string | number) =>
+  str === null || str === undefined || str?.toString()?.trim() === "";
 export const isNotNullOrEmpty = (str: string | number) => !isNullOrEmpty(str);
-export const isNullOrUndefined = (obj: any) => obj === null || obj === undefined;
+export const isNullOrUndefined = <T>(value: T) =>
+  value === null || value === undefined;
 
 export const parseUsernameFromEmail = (email: string) => {
-  if (email?.indexOf("@") === -1)
-    return 'unknown';
+  if (email?.indexOf("@") === -1) return "unknown";
 
   return email.split("@")[0];
-}
+};
 
 export const validateEmail = (email: string) => emailPattern.test(email);
 
 export const validatePassword = (pass: string) => passwordPattern.test(pass);
 
-export const validateText = (text: string) => textPattern.test(text);
+export const validateUsername = (text: string) => usernamePattern.test(text);

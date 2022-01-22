@@ -1,14 +1,14 @@
-import React, {useEffect} from 'react';
-import {BrowserRouter} from "react-router-dom";
-import {RouterConfig} from "./navigation/router-config";
-import {QueryClient, QueryClientProvider} from "react-query";
-import {useStore} from "./store/store";
+import React, { useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { RouterConfig } from "./routes/router-config";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { useStore } from "./store/store";
 import "./App.scss";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const {checkAlreadyLoggedIn} = useStore();
+  const { checkAlreadyLoggedIn } = useStore();
 
   useEffect(() => {
     checkAlreadyLoggedIn();
@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <RouterConfig/>
+          <RouterConfig />
         </BrowserRouter>
       </QueryClientProvider>
     </div>
