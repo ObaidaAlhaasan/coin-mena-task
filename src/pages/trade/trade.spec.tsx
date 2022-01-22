@@ -10,10 +10,6 @@ describe("Trade", () => {
         <TradeForm />
       </QueryClientProvider>
     );
-
-    await waitFor(() =>
-      expect(screen.getByTestId("btn-test")).toBeInTheDocument()
-    );
   });
 });
 
