@@ -1,6 +1,8 @@
+@import "../../../../styles/mixins";
+
 .crypto-assets-table {
   .has-glass-bg {
-    width: 80vw;
+    width: 65vw;
     height: 100%;
     box-shadow: 0 0 1rem 0 rgb(0 0 0 / 20%);
     border-radius: 5px;
@@ -8,14 +10,31 @@
     z-index: 1;
     background: inherit;
     overflow: hidden;
-    margin: 5rem;
-    padding: 21px;
+    margin: 7rem auto;
+    padding: 2rem;
+
+    @include respond(phone) {
+      width: 100vw;
+    }
+
+    @include respond(tab-port) {
+      width: 80vw;
+    }
   }
+
   td:first-of-type {
     width: 2rem;
   }
 
   tbody {
     border-top: 0 !important;
+  }
+
+  .arrow-icon-wrapper {
+    font-size: 1.5rem;
+  }
+
+  tr {
+    border-color: rgba(255, 255, 255, 0.5);
   }
 }

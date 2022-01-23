@@ -1,11 +1,10 @@
-import "./why-choose-section.scss";
-
-import React, { FC } from "react";
-import Row from "../../../../components/row/row";
-import Col from "../../../../components/col/col";
-import { chooseReasons } from "./constants";
+import React, {FC} from "react";
+import {chooseReasons} from "./constants";
 import Reason from "./components/reason/reason";
 import Container from "../../../../components/container/container";
+import {Col, Row} from "../../../../components";
+
+import "./why-choose-section.scss";
 
 const WhyChooseSection: FC = () => {
   return (
@@ -25,7 +24,7 @@ const WhyChooseSection: FC = () => {
           <Col md={12}>
             <Row>
               {chooseReasons.map((r, i) => (
-                <Reason key={i} reason={r} />
+                <Reason key={i} reason={r}/>
               ))}
             </Row>
           </Col>

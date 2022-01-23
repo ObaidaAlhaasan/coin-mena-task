@@ -1,12 +1,9 @@
 import "./crypto-assets-table.scss";
 import React, {FC, useMemo, useState} from 'react';
-import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
-import LoadingError from "../../../../components/loading-error/loading-error";
-import ReusableTable from "../../../../components/reusable-table/reusable-table";
-import {usePaginatedCryptoAssets} from "../../../../hooks/usePaginatedCryptoAssets";
-import Col from "../../../../components/col/col";
+import {usePaginatedCryptoAssets} from "../../../../lib/hooks";
 import {CryptoTableColumns} from "./crypto-table-columns";
 import {ResponseStatus} from "../../../../types/cryptos";
+import {Col, LoadingError, LoadingSpinner, ReusableTable} from "../../../../components";
 
 const CryptoAssetsTable: FC = () => {
   const [queryPageIndex, setPageIndex] = useState<number>(0);

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import Col from "../../../../../../components/col/col";
 import { IChooseReason } from "../../constants";
+import {Col} from "../../../../../../components";
 
 interface IReasonProps {
   reason: IChooseReason;

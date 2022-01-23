@@ -8,12 +8,10 @@ interface IColProps {
   className?: string;
 }
 
-const Col: FC<IColProps> = ({lg, md, className, children}) => {
+export const Col: FC<IColProps> = ({lg, md, className, children}) => {
   return (
     <div className={`col-sm-12 col-md-${md ?? ''} ${lg ? `col-lg-${lg}` : ''} ${className ?? ''}`}>
       {children}
     </div>
   );
 };
-
-export default Col;

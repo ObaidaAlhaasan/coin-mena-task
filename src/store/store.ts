@@ -1,6 +1,6 @@
 import create from "zustand";
 import { ILoggedInUser } from "../types/user/user";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../lib/hooks/useAuth";
 
 export interface IAppState {
   currentUser: ILoggedInUser | null;

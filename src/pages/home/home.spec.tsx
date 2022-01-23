@@ -1,6 +1,6 @@
-import { render } from "@testing-library/react";
+import {render} from "@testing-library/react";
 import Home from "./home";
-import { QueryClient, QueryClientProvider } from "react-query";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 export const renderWithQueryClient = (children: JSX.Element) => {
   const q = new QueryClient();
@@ -11,6 +11,6 @@ export const renderWithQueryClient = (children: JSX.Element) => {
 
 describe("Home", () => {
   it("Render on Dom", function () {
-    renderWithQueryClient(<Home />);
+    renderWithQueryClient(<Home/>);
   });
 });

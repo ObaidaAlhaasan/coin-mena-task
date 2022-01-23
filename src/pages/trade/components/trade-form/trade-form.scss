@@ -51,4 +51,16 @@
   max-height: 15rem;
 }
 
+.select-page-size {
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
 
+  &:focus {
+    outline: none;
+  }
+
+  option {
+    color: black;
+  }
+}

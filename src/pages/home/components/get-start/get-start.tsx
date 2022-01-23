@@ -1,10 +1,9 @@
 import "./get-start.scss";
 import React from "react";
-import Row from "../../../../components/row/row";
-import Col from "../../../../components/col/col";
 import Container from "../../../../components/container/container";
-import { startItems } from "./constants";
+import {startItems} from "./constants";
 import StartItem from "./components/start-item/start-item";
+import {Col, Row} from "../../../../components";
 
 const GetStart = () => {
   return (
@@ -26,7 +25,7 @@ const GetStart = () => {
               </p>
               <h2 className="mb-4">Getting started is easy</h2>
               {startItems.map((startItem, i) => (
-                <StartItem item={startItem} key={i} />
+                <StartItem item={startItem} key={i}/>
               ))}
             </div>
           </Col>
