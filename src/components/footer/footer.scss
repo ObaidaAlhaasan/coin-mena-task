@@ -1,4 +1,4 @@
-@import "/src/styles/variables";
+@import "../../styles/variables";
 
 .footer {
   font-size: $default-font-size 1.2;
@@ -13,7 +13,6 @@
   form {
     display: flex;
     flex-direction: row;
-    border: 1px solid #c4eff1;
     border-radius: 5px;
     padding: 8px;
     margin: 1rem 0;
@@ -22,10 +21,12 @@
   input {
     flex-grow: 2;
     border: none;
-  }
+    border-left: 3px solid $primary-color;
+    padding-left: 1rem;
 
-  input:focus {
-    outline: none;
+    &:focus {
+      outline: none;
+    }
   }
 
   button {
@@ -39,7 +40,7 @@
 
   ul h4 {
     font-weight: 600;
-    color: #8890a3;
+    color: $primary-color;
     text-transform: uppercase;
     font-size: $default-font-size*1.8;
   }

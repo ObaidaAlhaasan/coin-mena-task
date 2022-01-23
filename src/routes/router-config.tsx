@@ -1,22 +1,21 @@
+import React from "react";
 import Home from "../pages/home/home";
 import RoutesPathsConstants from "./routes-paths-constants";
-import Trade from "../pages/trade/trade";
 import NotFound from "../pages/not-found/not-found";
-import { Route, Routes } from "react-router-dom";
-import React from "react";
-import Header from "../components/header/header";
-import Footer from "../components/footer/footer";
+import {Route, Routes} from "react-router-dom";
+import {Header, Footer} from "../components";
+import {Trade} from "../pages/trade";
 
 export const RouterConfig = () => {
   return (
     <>
-      <Header />
+      <Header/>
       <Routes>
-        <Route path={RoutesPathsConstants.Root} element={<Home />} />
-        <Route path={RoutesPathsConstants.Trade} element={<Trade />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path={RoutesPathsConstants.Root} element={<Home/>}/>
+        <Route path={RoutesPathsConstants.Trade} element={<Trade/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
-      <Footer />
+      <Footer/>
     </>
   );
 };

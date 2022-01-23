@@ -1,17 +1,16 @@
-import React, { FC, FormEvent, useEffect, useState } from "react";
+import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import "./login.scss";
-import { useStore } from "../../../store/store";
-import {
-  InputWithValidation,
-  validationInput,
-} from "../../input/input-with-validation/input-with-validation";
+import {useStore} from "../../../store/store";
+import {InputWithValidation, validationInput,} from "../../../components";
 
 interface ILoginProps {
   onClose?: () => void;
   show: boolean;
 }
 
-const LoginModal: FC<ILoginProps> = ({ show, onClose }) => {
+const LoginModal: FC<ILoginProps> = ({show, onClose}) => {
+  const {login} = useStore();
+
   const [email, setEmail] = useState<validationInput>({
     value: "",
     isValid: null,
@@ -24,24 +23,20 @@ const LoginModal: FC<ILoginProps> = ({ show, onClose }) => {
     validationMsg: null,
   });
 
-  const { login } = useStore();
-
-  const onLogin = async (e?: FormEvent<HTMLFormElement>) => {
+  const onLogin = useCallback(async (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
 
     await login(email.value, password.value);
     onClose?.();
-  };
+  }, [email.value, onClose, password.value]);
 
-  const resetState = () => {
-    setPassword({ value: "", isValid: null, validationMsg: null });
-    setEmail({ value: "", isValid: null, validationMsg: null });
-  };
+  const resetState = useCallback(() => {
+    setPassword({value: "", isValid: null, validationMsg: null});
+    setEmail({value: "", isValid: null, validationMsg: null});
+  }, []);
 
   useEffect(() => {
-    return function cleanup() {
-      resetState();
-    };
+    return resetState;
   }, []);
 
   return (
@@ -53,7 +48,7 @@ const LoginModal: FC<ILoginProps> = ({ show, onClose }) => {
         <div className="modal-header">
           <h4 className="modal-title">Login</h4>
           <span className="close" onClick={onClose}>
-            <i className="fas fa-times has-hover has-hover-affect" />
+            <i className="fas fa-times has-hover has-hover-affect"/>
           </span>
         </div>
 

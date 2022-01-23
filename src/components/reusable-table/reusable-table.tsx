@@ -11,7 +11,7 @@ interface ITableProps {
   setPageItemsCount: (size: number) => void;
 }
 
-const ReusableTable: FC<ITableProps> = (props) => {
+export const ReusableTable: FC<ITableProps> = (props) => {
   const {
     columns,
     data,
@@ -166,7 +166,7 @@ const ReusableTable: FC<ITableProps> = (props) => {
         <div className="mx-3 d-flex align-items-center">
           <span className="me-2 text-white">Rows Per Page: </span>
           <select
-            className="form-control-sm"
+            className="form-control-sm select-page-size"
             id="rows-per-page"
             onChange={(e) => setPageSize(Number(e.target.value))}
           >
@@ -181,5 +181,3 @@ const ReusableTable: FC<ITableProps> = (props) => {
     </>
   );
 };
-
-export default ReusableTable;

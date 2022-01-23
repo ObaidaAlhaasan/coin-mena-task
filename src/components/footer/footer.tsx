@@ -1,13 +1,13 @@
 import "./footer.scss";
 import React from 'react';
 import Container from "../container/container";
-import Row from "../row/row";
-import Col from "../col/col";
-import Logo from "../logo/logo";
-import {FooterItems, SocialLinks} from "./constant";
-import FooterPrivacy from "./components/footer-privacy/footer-privacy";
+import {FooterItems, SocialLinks} from "../../lib/constants";
+import {Row} from "../row";
+import {Col} from "../col";
+import {Logo} from "../logo";
+import {FooterPrivacy} from "./components/footer-privacy/footer-privacy";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <div className="footer bg-light pt-5 pb-2 text-center text-md-start">
       <Container>
@@ -49,5 +49,3 @@ const Footer = () => {
     </div>
   );
 };
-
-export default Footer;

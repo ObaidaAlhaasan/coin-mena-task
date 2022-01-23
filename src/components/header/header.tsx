@@ -1,18 +1,19 @@
 import { FC, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import "./header.scss";
+import { useStore } from "../../store/store";
 
 import RoutesPathsConstants from "../../routes/routes-paths-constants";
-import LoginModal from "../modals/login/login";
-import { useStore } from "../../store/store";
-import Logo from "../logo/logo";
+import LoginModal from "../../pages/auth/login/login";
 import UserInfo from "./components/user-info/user-info";
-import ModalPortal from "../modal-portal/modal-portal";
+
+import "./header.scss";
+import {Logo} from "../logo";
+import {ModalPortal} from "../modal-portal";
 
 const navLinkClassName = (props: { isActive: boolean }) =>
   props.isActive ? "nav-link-active" : "has-hover-affect";
 
-const Header: FC = () => {
+export const Header: FC = () => {
   const [loginIsOpen, setLoginIsOpen] = useState<boolean>(false);
   const [navbarExpand, setNavbarExpand] = useState<string>("");
   const { currentUser, logout } = useStore();
@@ -110,5 +111,3 @@ const Header: FC = () => {
     </nav>
   );
 };
-
-export default Header;

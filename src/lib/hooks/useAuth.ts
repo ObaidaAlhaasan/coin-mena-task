@@ -1,5 +1,5 @@
-import { ILoggedInUser } from "../types/user/user";
-import { isNullOrEmpty, parseUsernameFromEmail } from "../utils/string-utils";
+import { ILoggedInUser } from "../../types/user/user";
+import { isNullOrEmpty, parseUsernameFromEmail } from "../../utils/string-utils";
 
 const useAuth = (
   email: string,

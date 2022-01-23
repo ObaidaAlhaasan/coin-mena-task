@@ -1,66 +1,38 @@
-import React, {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, {ChangeEvent, FC, useCallback, useEffect, useMemo, useState} from "react";
+import {CryptoIcon, LoadingError, LoadingSpinner} from "../../../../components";
+import {CryptoCurrency, ExchangeSrc, ICryptoAsset, ResponseStatus, strOrNum} from "../../../../types/cryptos";
+import {useDebounce, useRate, useCryptoAssets} from "../../../../lib/hooks";
+import {isNotNullOrEmpty, isNullOrEmpty,} from "../../../../utils/string-utils";
+import {useStore} from "../../../../store/store";
 import "./trade-form.scss";
-import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
-import LoadingError from "../../../../components/loading-error/loading-error";
-import { CryptoIcon } from "../../../../components/crypto-icon/crypto-icon";
-import {
-  CryptoCurrency,
-  ExchangeSrc,
-  ICryptoAsset,
-  ResponseStatus,
-  strOrNum,
-} from "../../../../types/cryptos";
-import { useDebounce } from "../../../../hooks/useDebounce";
-import { useCryptoAssets } from "../../../../hooks/useCryptoAssets";
-import { useRate } from "../../../../hooks/useRate";
-import {
-  isNotNullOrEmpty,
-  isNullOrEmpty,
-} from "../../../../utils/string-utils";
-import { useStore } from "../../../../store/store";
 
 const DelayEventInMilliSecond = 250;
 const TradeForm: FC = () => {
+  const {data: response, status: fetchCryptoStatus} = useCryptoAssets();
+
   const [crypto, setCrypto] = useState<ICryptoAsset>();
   const [cryptoAmt, setCryptoAmt] = useState<strOrNum>("");
   const [currency, setCurrency] = useState<strOrNum>("");
-  const [exchangeSrc, setExchangeSrc] = useState<ExchangeSrc>(
-    ExchangeSrc.Crypto
-  );
-  const debouncedCurrency = useDebounce<strOrNum>(
-    currency,
-    DelayEventInMilliSecond
-  );
-  const debouncedCryptoAmt = useDebounce<strOrNum>(
-    cryptoAmt,
-    DelayEventInMilliSecond
-  );
+  const [exchangeSrc, setExchangeSrc] = useState<ExchangeSrc>(ExchangeSrc.Crypto);
 
-  const { data: response, status: fetchCryptoStatus } = useCryptoAssets();
+  const debouncedCurrency = useDebounce<strOrNum>(currency, DelayEventInMilliSecond);
+  const debouncedCryptoAmt = useDebounce<strOrNum>(cryptoAmt, DelayEventInMilliSecond);
+
   const cryptos = useMemo(() => response?.data ?? [], [response?.data]);
 
-  const {
-    refetch: refetchCryptoRate,
-    status: fetchRateStatus,
-    error,
-  } = useRate(crypto, CryptoCurrency.USD);
+
+  const {refetch: refetchCryptoRate, status: fetchRateStatus, error} = useRate(crypto, CryptoCurrency.USD);
+
   const fetchRateErrMsg = error as string;
 
-  const { currentUser } = useStore();
+  const {currentUser} = useStore();
 
   useEffect(() => {
     setCrypto(cryptos[0]);
   }, [cryptos]);
 
   const fetchCryptoRate = useCallback(() => {
-    refetchCryptoRate().then(({ data, status }) => {
+    refetchCryptoRate().then(({data, status}) => {
       if (status !== ResponseStatus.Success || !data?.rate) return;
       const value = Number(cryptoAmt) * data?.rate ?? "";
       setCurrency(value);
@@ -68,7 +40,7 @@ const TradeForm: FC = () => {
   }, [cryptoAmt]);
 
   const fetchCurrencyRate = useCallback(() => {
-    refetchCryptoRate().then(({ data, status }) => {
+    refetchCryptoRate().then(({data, status}) => {
       if (status !== ResponseStatus.Success || !data?.rate) return;
 
       const value = Number(currency) / data?.rate ?? "";
@@ -76,11 +48,21 @@ const TradeForm: FC = () => {
     });
   }, [currency]);
 
+  const resetState = useCallback(() => {
+    try {
+      if (isNotNullOrEmpty(cryptoAmt)) setCryptoAmt("");
+
+      if (isNotNullOrEmpty(currency)) setCurrency("");
+
+      if (exchangeSrc !== ExchangeSrc.Crypto)
+        setExchangeSrc(ExchangeSrc.Crypto);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [cryptoAmt, currency, exchangeSrc]);
+
   useEffect(() => {
-    if (
-      exchangeSrc === ExchangeSrc.Currency ||
-      isNullOrEmpty(debouncedCryptoAmt)
-    )
+    if (exchangeSrc === ExchangeSrc.Currency || isNullOrEmpty(debouncedCryptoAmt))
       return;
 
     fetchCryptoRate();
@@ -93,23 +75,11 @@ const TradeForm: FC = () => {
     fetchCurrencyRate();
   }, [debouncedCurrency, exchangeSrc]);
 
-  if (fetchCryptoStatus === ResponseStatus.Loading) return <LoadingSpinner />;
+  if (fetchCryptoStatus === ResponseStatus.Loading)
+    return <LoadingSpinner/>;
 
   if (fetchCryptoStatus === ResponseStatus.Error)
-    return <LoadingError title="Crypto Assets" />;
-
-  const resetState = () => {
-    try {
-      if (isNotNullOrEmpty(cryptoAmt)) setCryptoAmt("");
-
-      if (isNotNullOrEmpty(currency)) setCurrency("");
-
-      if (exchangeSrc !== ExchangeSrc.Crypto)
-        setExchangeSrc(ExchangeSrc.Crypto);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    return <LoadingError title="Crypto Assets"/>;
 
   const onSelectCrypto = (d: ICryptoAsset) => {
     setCrypto(d);
@@ -165,7 +135,7 @@ const TradeForm: FC = () => {
               disabled={!currentUser}
               data-testid="btn-test"
             >
-              <CryptoIcon iconName={crypto?.symbol ?? ""} />
+              <CryptoIcon iconName={crypto?.symbol ?? ""}/>
               <span>{crypto?.symbol ?? ""}</span>
             </button>
             <ul
@@ -179,7 +149,7 @@ const TradeForm: FC = () => {
                     onClick={() => onSelectCrypto(c)}
                     disabled={!currentUser}
                   >
-                    <CryptoIcon iconName={c?.symbol ?? ""} />
+                    <CryptoIcon iconName={c?.symbol ?? ""}/>
                     <span className="has-text-secondary">{c.symbol}</span>
                   </button>
                 </li>
@@ -201,7 +171,7 @@ const TradeForm: FC = () => {
       <div className="input-group mb-3">
         <div className="input-group-prepend">
           <span className="h-100 input-group-text bg-light">
-            <i className="fas fa-dollar-sign" />
+            <i className="fas fa-dollar-sign"/>
           </span>
         </div>
         <input

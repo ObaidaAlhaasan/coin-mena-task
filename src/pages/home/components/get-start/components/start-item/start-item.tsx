@@ -1,13 +1,13 @@
 import "./start-item.scss";
 
-import React, { FC } from "react";
-import { IStartItem } from "../../constants";
+import React, {FC} from "react";
+import {IStartItem} from "../../constants";
 
 interface IStartItemProps {
   item: IStartItem;
 }
 
-const StartItem: FC<IStartItemProps> = ({ item }) => {
+const StartItem: FC<IStartItemProps> = ({item}) => {
   return (
     <div className="item">
       <div className="subtitle has-text-primary text-capitalize">

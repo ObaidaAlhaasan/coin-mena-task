@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import "./loading-spinner.scss";
 
-const LoadingSpinner: FC = () => {
+export const LoadingSpinner: FC = () => {
   return <div className="loading-spinner text-center mt-5">
     <div className="lds-ring">
       <div/>
@@ -11,5 +11,3 @@ const LoadingSpinner: FC = () => {
     </div>
   </div>;
 }
-
-export default LoadingSpinner;
