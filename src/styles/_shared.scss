@@ -98,3 +98,7 @@
   background-image: url("../../public/assets/images/assets-table-bg.jpg");
   background-attachment: fixed;
 }
+
+.has-primary-border-color{
+  border-color: $primary-border-color;
+}

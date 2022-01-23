@@ -170,8 +170,8 @@ const TradeForm: FC = () => {
 
       <div className="input-group mb-3">
         <div className="input-group-prepend">
-          <span className="h-100 input-group-text bg-light">
-            <i className="fas fa-dollar-sign"/>
+          <span className="h-100 input-group-text has-text-primary bg-transparent has-primary-border-color">
+            <i className="fas fa-dollar-sign "/>
           </span>
         </div>
         <input
