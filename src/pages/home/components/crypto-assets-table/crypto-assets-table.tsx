@@ -14,9 +14,6 @@ const CryptoAssetsTable: FC = () => {
 
   const columns = useMemo(() => CryptoTableColumns, []);
 
-  if (status === ResponseStatus.Loading)
-    return <LoadingSpinner/>
-
   if (status === ResponseStatus.Error)
     return <LoadingError title="Crypto Assets"/>;
 
@@ -24,6 +21,7 @@ const CryptoAssetsTable: FC = () => {
     <section className="crypto-assets-table row justify-content-center w-100 position-relative ">
       <div className="trades-bg-image position-absolute"/>
       <Col md={8} className="table-responsive has-glass-bg">
+        {status === ResponseStatus.Loading && <LoadingSpinner/>}
         <ReusableTable columns={columns}
                        data={data}
                        queryPageIndex={queryPageIndex}

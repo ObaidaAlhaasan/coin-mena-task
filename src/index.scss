@@ -59,8 +59,9 @@ html {
   scrollbar-width: thin;
 }
 
-.section::-webkit-scrollbar {
-  width: 16px;
+
+::-webkit-scrollbar {
+  width: 0.5rem;
 }
 
 ::-webkit-scrollbar-track {
