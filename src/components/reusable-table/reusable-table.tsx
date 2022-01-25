@@ -126,6 +126,7 @@ export const ReusableTable: FC<ITableProps> = (props) => {
               className="btn btn-sm btn-outline-secondary"
               onClick={() => gotoPage(0)}
               disabled={!canPreviousPage}
+              data-testid="pagination-first-page"
             >
               <i className="fas fa-angle-double-left text-white has-hover-text-primary" />
             </button>
@@ -133,6 +134,7 @@ export const ReusableTable: FC<ITableProps> = (props) => {
               className="btn btn-sm btn-outline-secondary"
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
+              data-testid="pagination-previous-page"
             >
               <i className="fas fa-angle-left text-white has-hover-text-primary" />
             </button>
@@ -143,6 +145,7 @@ export const ReusableTable: FC<ITableProps> = (props) => {
               className="btn btn-sm btn-outline-secondary"
               onClick={() => nextPage()}
               disabled={!canNextPage}
+              data-testid="pagination-next-page"
             >
               <i className="fas fa-angle-right text-white has-hover-text-primary" />
             </button>
@@ -150,6 +153,7 @@ export const ReusableTable: FC<ITableProps> = (props) => {
               className="btn btn-sm btn-outline-secondary"
               onClick={() => gotoPage(pageCount - 1)}
               disabled={!canNextPage}
+              data-testid="pagination-last-page"
             >
               <i className="fas fa-angle-double-right text-white has-hover-text-primary" />
             </button>
@@ -166,6 +170,7 @@ export const ReusableTable: FC<ITableProps> = (props) => {
         <div className="mx-3 d-flex align-items-center">
           <span className="me-2 text-white">Rows Per Page: </span>
           <select
+            data-testid="pagination-row-per-page"
             className="form-control-sm select-page-size"
             id="rows-per-page"
             onChange={(e) => setPageSize(Number(e.target.value))}
